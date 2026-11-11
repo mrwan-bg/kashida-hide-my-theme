@@ -53,12 +53,26 @@ Set your own theme name, version, author, description, website URL, and screensh
 - **Update-Friendly Design** — Does not rename theme directories or change stylesheet/template identifiers used by the theme update process.
 - **Arabic Translation** — Includes Arabic PO/MO translation files and a POT template.
 
+## Feature Overview
+
+<p align="center">
+  <img src="screen/screen%20a%20(1).png" alt="Kashida Hide My Theme feature overview: theme and plugin information privacy, detection reduction, and custom replacements" width="100%">
+</p>
+
 ## Custom Theme Identity
 
 Configure your replacement theme identity and screenshot. The public response can show your selected details instead of the original theme metadata.
 
 <p align="center">
-  <img src="screen/screen%20a%20(2).png" alt="Custom theme identity configuration and before-and-after public theme details" width="100%">
+  <img src="screen/screen%20a%20(2).png" alt="Custom theme identity settings and before-and-after public theme details" width="100%">
+</p>
+
+## Theme Information Privacy Controls
+
+Choose which supported theme and site details should be concealed or replaced, including theme information and generator metadata.
+
+<p align="center">
+  <img src="screen/screen%20a%20(3).png" alt="Before-and-after theme information privacy controls" width="100%">
 </p>
 
 ## Lightweight & Safe Operation
@@ -66,7 +80,7 @@ Configure your replacement theme identity and screenshot. The public response ca
 The plugin is designed to avoid modifying the original theme source files, page layouts, CSS/JavaScript assets, or page-builder output.
 
 <p align="center">
-  <img src="screen/screen%20a%20(4).png" alt="Kashida Hide My Theme lightweight operation and theme compatibility" width="100%">
+  <img src="screen/screen%20a%20(4).png" alt="Lightweight operation and compatibility of Kashida Hide My Theme" width="100%">
 </p>
 
 ## Installation
@@ -129,7 +143,10 @@ kashida-hide-my-theme/
 ├── screen/
 │   ├── Kashida Hide My Theme Icon.png
 │   ├── Hide My Theme Plugin Banner.png
-│   └── feature screenshots
+│   ├── screen a (1).png
+│   ├── screen a (2).png
+│   ├── screen a (3).png
+│   └── screen a (4).png
 ├── kashida-hide-my-theme.php
 ├── readme.txt
 └── README.md
