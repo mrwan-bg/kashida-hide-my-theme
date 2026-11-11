@@ -1,0 +1,200 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Kashida Hide my theme 1.5.1\n"
+"Report-Msgid-Bugs-To: https://kashida.ly/\n"
+"POT-Creation-Date: 2026-11-11 20:00+0200\n"
+"PO-Revision-Date: 2026-11-11 21:59+0200\n"
+"Last-Translator: Kashida Media Services\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Poedit 3.10\n"
+
+msgid "Kashida Hide my theme"
+msgstr "كشيدة لإخفاء القالب"
+
+msgid "Hide my theme"
+msgstr "إخفاء القالب"
+
+msgid "No icon selected"
+msgstr "لم يتم اختيار أيقونة"
+
+msgid "No image selected"
+msgstr "لم يتم اختيار صورة"
+
+msgid "Select theme icon"
+msgstr "اختر أيقونة القالب"
+
+msgid "Select theme screenshot"
+msgstr "اختر صورة القالب"
+
+msgid "Use image"
+msgstr "استخدم الصورة"
+
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Metadata replacement is disabled."
+msgstr "استبدال بيانات التعريف معطّل."
+
+msgid "No custom screenshot selected."
+msgstr "لم يتم اختيار صورة مخصصة."
+
+msgid "The selected screenshot is served at the public theme screenshot endpoint."
+msgstr "يتم تقديم الصورة المحددة عبر عنوان صورة القالب العام."
+
+msgid "The public screenshot endpoint does not match the selected image. A cache or rewrite rule may be interfering."
+msgstr "الصورة المقدمة عبر العنوان العام لا تطابق الصورة المحددة. قد يكون التخزين المؤقت أو إحدى قواعد إعادة الكتابة سبب المشكلة."
+
+msgid "Custom metadata detected in the public response."
+msgstr "تم العثور على بيانات التعريف المخصصة في الاستجابة العامة."
+
+msgid "The public response did not contain the expected custom metadata."
+msgstr "الاستجابة العامة لا تحتوي على بيانات التعريف المخصصة المتوقعة."
+
+msgid "Public metadata replacement was verified for the active and parent theme endpoints."
+msgstr "تم التحقق من استبدال بيانات التعريف العامة للقالب النشط والقالب الأب."
+
+msgid "One or more public endpoints could not be verified. Check rewrite rules, cache, CDN, and server configuration."
+msgstr "تعذر التحقق من عنوان عام واحد أو أكثر. تحقق من قواعد إعادة الكتابة والتخزين المؤقت وCDN وإعدادات الخادم."
+
+msgid "Theme identity"
+msgstr "هوية القالب"
+
+msgid "Active theme"
+msgstr "القالب النشط"
+
+msgid "Manage theme identity"
+msgstr "إدارة هوية القالب"
+
+msgid "Kashida Media Services"
+msgstr "خدمات كشيدة الإعلامية"
+
+msgid "Universal theme identity settings for any active WordPress theme."
+msgstr "إعدادات عامة لهوية أي قالب WordPress نشط."
+
+msgid "Safe metadata mode:"
+msgstr "وضع معالجة بيانات التعريف الآمن:"
+
+msgid "Only the theme style.css metadata response and theme-directory screenshot endpoint are internally served from generated copies. Original URLs stay the same; CSS rules, page images, fonts, scripts, page-builder output and theme files are not modified."
+msgstr "يتم تقديم بيانات ملف style.css وصورة القالب من نسخ مولّدة داخلياً فقط. تبقى الروابط الأصلية كما هي، ولا يتم تعديل قواعد CSS أو صور الصفحات أو الخطوط أو السكربتات أو مخرجات منشئ الصفحات أو ملفات القالب."
+
+msgid "The plugin could not remove its previous rewrite rules from .htaccess. Please remove the block between the Kashida Hide my theme markers manually after backing up the file."
+msgstr "تعذرت إزالة قواعد إعادة الكتابة السابقة للإضافة من ملف .htaccess. بعد أخذ نسخة احتياطية من الملف، يرجى إزالة الجزء الموجود بين علامتي Kashida Hide my theme يدوياً."
+
+msgid "Settings saved. Check the rewrite status below before testing your public site."
+msgstr "تم حفظ الإعدادات. تحقق من حالة قواعد إعادة الكتابة أدناه قبل اختبار الموقع العام."
+
+msgid "These settings apply to the currently active theme and are not tied to a specific theme vendor or directory."
+msgstr "تنطبق هذه الإعدادات على القالب النشط حالياً، ولا ترتبط بمطور أو مجلد قالب محدد."
+
+msgid "Enabled"
+msgstr "مفعّل"
+
+msgid "Disabled"
+msgstr "معطّل"
+
+msgid "Custom display name"
+msgstr "اسم العرض المخصص"
+
+msgid "Used in supported WordPress administration displays and the public style.css metadata response."
+msgstr "يُستخدم في شاشات إدارة WordPress المدعومة وفي بيانات ملف style.css العامة."
+
+msgid "Public theme version"
+msgstr "إصدار القالب الظاهر للعامة"
+
+msgid "Public theme author"
+msgstr "مؤلف القالب الظاهر للعامة"
+
+msgid "Public theme description"
+msgstr "وصف القالب الظاهر للعامة"
+
+msgid "Public theme website"
+msgstr "موقع القالب الظاهر للعامة"
+
+msgid "Theme screenshot"
+msgstr "صورة القالب"
+
+msgid "Choose image"
+msgstr "اختيار صورة"
+
+msgid "Remove"
+msgstr "إزالة"
+
+msgid "Used in the WordPress Themes screen and public theme screenshot endpoint (child and parent theme where available). Recommended ratio: 4:3."
+msgstr "تُستخدم في شاشة القوالب في WordPress وعنوان صورة القالب العام للقالب الابن والأب عند توفرهما. النسبة الموصى بها: 4:3."
+
+msgid "Theme identity icon"
+msgstr "أيقونة هوية القالب"
+
+msgid "Choose icon"
+msgstr "اختيار أيقونة"
+
+msgid "Displayed in the Theme identity dashboard widget, not as the WordPress menu icon or site favicon."
+msgstr "تظهر في ودجت هوية القالب بلوحة التحكم، ولا تُستخدم كأيقونة لقائمة WordPress أو كأيقونة للموقع (Favicon)."
+
+msgid "Public metadata replacement"
+msgstr "استبدال بيانات التعريف العامة"
+
+msgid "The plugin internally serves generated style.css metadata and the selected theme screenshot for the active child and parent theme, while preserving original URLs and CSS rules. No page HTML or design asset URL is rewritten."
+msgstr "تقدم الإضافة داخلياً بيانات style.css المولّدة وصورة القالب المحددة للقالب الابن والقالب الأب، مع الحفاظ على الروابط الأصلية وقواعد CSS. لا تتم إعادة كتابة HTML الصفحات أو روابط ملفات التصميم."
+
+msgid "Enable public metadata replacement"
+msgstr "تفعيل استبدال بيانات التعريف العامة"
+
+msgid "When disabled, original public theme metadata is served. WordPress theme files and update identifiers remain unchanged."
+msgstr "عند تعطيل هذا الخيار، يتم تقديم بيانات القالب الأصلية للعامة. تبقى ملفات القالب ومعرّفات تحديثه دون تغيير."
+
+msgid "Save changes"
+msgstr "حفظ التغييرات"
+
+msgid "Metadata replacement status"
+msgstr "حالة استبدال بيانات التعريف"
+
+msgid "Plugin-managed style.css metadata rules are active."
+msgstr "قواعد الإضافة الخاصة ببيانات style.css مفعّلة."
+
+msgid "Could not write metadata rules. Check .htaccess permissions; the original theme remains unaffected."
+msgstr "تعذرت كتابة قواعد بيانات التعريف. تحقق من صلاحيات ملف .htaccess؛ لن يتأثر القالب الأصلي."
+
+msgid "Metadata replacement is inactive."
+msgstr "استبدال بيانات التعريف غير نشط."
+
+msgid "Only exact style.css and theme screenshot metadata endpoints are internally mapped. Metadata rules run before WordPress front-controller rules; all other front-end URLs and theme files remain untouched."
+msgstr "تتم معالجة عناوين style.css وصورة القالب المحددة فقط داخلياً. تُنفّذ هذه القواعد قبل قواعد توجيه WordPress، بينما تبقى بقية روابط الواجهة وملفات القالب دون تغيير."
+
+msgid "Verify public metadata now"
+msgstr "التحقق من بيانات التعريف العامة الآن"
+
+msgid "What this can and cannot hide"
+msgstr "ما الذي يمكن إخفاؤه وما الذي لا يمكن إخفاؤه"
+
+msgid "Replaces public style.css theme metadata with the identity configured here."
+msgstr "تستبدل بيانات تعريف القالب العامة في style.css بالهوية المحددة هنا."
+
+msgid "Keeps the original stylesheet URL and CSS content unchanged."
+msgstr "تحافظ على رابط ملف الأنماط الأصلي ومحتوى CSS دون تغيير."
+
+msgid "Cannot guarantee concealment of CSS fingerprints, HTML signatures, plugin metadata, cached URLs, or hard-coded asset paths."
+msgstr "لا يمكن ضمان إخفاء بصمات CSS أو مؤشرات HTML أو بيانات الإضافات أو الروابط المخزنة مؤقتاً أو مسارات الملفات المكتوبة مباشرة في الشيفرة."
+
+msgid "Does not rename theme folders, alter asset URLs, edit original theme files, or change update identifiers."
+msgstr "لا تعيد تسمية مجلدات القوالب، ولا تغيّر روابط الملفات أو تعدّل ملفات القالب الأصلية أو معرّفات التحديث."
+
+msgid "Before enabling direct blocking"
+msgstr "قبل تفعيل الحظر المباشر"
+
+msgid "Create a backup of .htaccess and test on staging. A third-party component that hard-codes /wp-content/themes/... may stop loading if direct blocking is enabled."
+msgstr "أنشئ نسخة احتياطية من ملف .htaccess واختبر على بيئة تجريبية. قد يتوقف مكوّن خارجي يستخدم مساراً مباشراً من /wp-content/themes/... عن العمل إذا تم تفعيل الحظر المباشر."
+
+msgid "by Mrwan elGobee"
+msgstr "بواسطة مروان القبي"
+
+msgid "Plugin Name: Kashida Hide my theme"
+msgstr "اسم الإضافة: كشيدة لإخفاء القالب"
+
+msgid "Description: Replace public theme stylesheet metadata safely while preserving original theme files, asset URLs, layouts, and updates."
+msgstr "استبدال بيانات تعريف القالب العامة بأمان مع الحفاظ على ملفات القالب الأصلية وروابط الملفات والتصميم والتحديثات."

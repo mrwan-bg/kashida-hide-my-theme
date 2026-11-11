@@ -1,0 +1,182 @@
+msgid ""
+msgstr "Project-Id-Version: Kashida Hide my theme 1.5.1\nReport-Msgid-Bugs-To: https://kashida.ly/\nPOT-Creation-Date: 2026-11-11 20:00+0200\nPO-Revision-Date: 2026-11-11 20:00+0200\nLast-Translator: Kashida Media Services\nLanguage-Team: Arabic\nLanguage: ar\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\nX-Generator: Kashida Media Services\n"
+
+msgid "Kashida Hide my theme"
+msgstr ""
+
+msgid "Hide my theme"
+msgstr ""
+
+msgid "No icon selected"
+msgstr ""
+
+msgid "No image selected"
+msgstr ""
+
+msgid "Select theme icon"
+msgstr ""
+
+msgid "Select theme screenshot"
+msgstr ""
+
+msgid "Use image"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Metadata replacement is disabled."
+msgstr ""
+
+msgid "No custom screenshot selected."
+msgstr ""
+
+msgid "The selected screenshot is served at the public theme screenshot endpoint."
+msgstr ""
+
+msgid "The public screenshot endpoint does not match the selected image. A cache or rewrite rule may be interfering."
+msgstr ""
+
+msgid "Custom metadata detected in the public response."
+msgstr ""
+
+msgid "The public response did not contain the expected custom metadata."
+msgstr ""
+
+msgid "Public metadata replacement was verified for the active and parent theme endpoints."
+msgstr ""
+
+msgid "One or more public endpoints could not be verified. Check rewrite rules, cache, CDN, and server configuration."
+msgstr ""
+
+msgid "Theme identity"
+msgstr ""
+
+msgid "Active theme"
+msgstr ""
+
+msgid "Manage theme identity"
+msgstr ""
+
+msgid "Kashida Media Services"
+msgstr ""
+
+msgid "Universal theme identity settings for any active WordPress theme."
+msgstr ""
+
+msgid "Safe metadata mode:"
+msgstr ""
+
+msgid "Only the theme style.css metadata response and theme-directory screenshot endpoint are internally served from generated copies. Original URLs stay the same; CSS rules, page images, fonts, scripts, page-builder output and theme files are not modified."
+msgstr ""
+
+msgid "The plugin could not remove its previous rewrite rules from .htaccess. Please remove the block between the Kashida Hide my theme markers manually after backing up the file."
+msgstr ""
+
+msgid "Settings saved. Check the rewrite status below before testing your public site."
+msgstr ""
+
+msgid "These settings apply to the currently active theme and are not tied to a specific theme vendor or directory."
+msgstr ""
+
+msgid "Enabled"
+msgstr ""
+
+msgid "Disabled"
+msgstr ""
+
+msgid "Custom display name"
+msgstr ""
+
+msgid "Used in supported WordPress administration displays and the public style.css metadata response."
+msgstr ""
+
+msgid "Public theme version"
+msgstr ""
+
+msgid "Public theme author"
+msgstr ""
+
+msgid "Public theme description"
+msgstr ""
+
+msgid "Public theme website"
+msgstr ""
+
+msgid "Theme screenshot"
+msgstr ""
+
+msgid "Choose image"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Used in the WordPress Themes screen and public theme screenshot endpoint (child and parent theme where available). Recommended ratio: 4:3."
+msgstr ""
+
+msgid "Theme identity icon"
+msgstr ""
+
+msgid "Choose icon"
+msgstr ""
+
+msgid "Displayed in the Theme identity dashboard widget, not as the WordPress menu icon or site favicon."
+msgstr ""
+
+msgid "Public metadata replacement"
+msgstr ""
+
+msgid "The plugin internally serves generated style.css metadata and the selected theme screenshot for the active child and parent theme, while preserving original URLs and CSS rules. No page HTML or design asset URL is rewritten."
+msgstr ""
+
+msgid "Enable public metadata replacement"
+msgstr ""
+
+msgid "When disabled, original public theme metadata is served. WordPress theme files and update identifiers remain unchanged."
+msgstr ""
+
+msgid "Save changes"
+msgstr ""
+
+msgid "Metadata replacement status"
+msgstr ""
+
+msgid "Plugin-managed style.css metadata rules are active."
+msgstr ""
+
+msgid "Could not write metadata rules. Check .htaccess permissions; the original theme remains unaffected."
+msgstr ""
+
+msgid "Metadata replacement is inactive."
+msgstr ""
+
+msgid "Only exact style.css and theme screenshot metadata endpoints are internally mapped. Metadata rules run before WordPress front-controller rules; all other front-end URLs and theme files remain untouched."
+msgstr ""
+
+msgid "Verify public metadata now"
+msgstr ""
+
+msgid "What this can and cannot hide"
+msgstr ""
+
+msgid "Replaces public style.css theme metadata with the identity configured here."
+msgstr ""
+
+msgid "Keeps the original stylesheet URL and CSS content unchanged."
+msgstr ""
+
+msgid "Cannot guarantee concealment of CSS fingerprints, HTML signatures, plugin metadata, cached URLs, or hard-coded asset paths."
+msgstr ""
+
+msgid "Does not rename theme folders, alter asset URLs, edit original theme files, or change update identifiers."
+msgstr ""
+
+msgid "Before enabling direct blocking"
+msgstr ""
+
+msgid "Create a backup of .htaccess and test on staging. A third-party component that hard-codes /wp-content/themes/... may stop loading if direct blocking is enabled."
+msgstr ""
+
+msgid "by Mrwan elGobee"
+msgstr ""
