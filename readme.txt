@@ -4,7 +4,7 @@ Tags: theme, branding, administration, theme-identity
 Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 7.1
-Stable tag: 1.5.4
+Stable tag: 1.5.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,13 @@ The original theme directory name remains visible in the style.css URL and may s
 5. Review the rewrite status and use the built-in public metadata verification tool. Back up .htaccess before enabling the feature.
 
 == Changelog ==
+
+= 1.5.5 =
+* Omit the parent-theme Template header from generated public stylesheets so the parent directory slug is not disclosed in the replacement metadata response.
+* Verify the effective theme name when the optional custom display name is empty.
+* Align public documentation with the implemented theme identity and stylesheet/screenshot endpoints; remove unsupported generator-metadata claims.
+* Refresh the Arabic documentation and translation catalog metadata.
+* Add a manual QA checklist and automated PHP syntax checks across supported PHP versions.
 
 = 1.5.4 =
 * Encapsulated uninstall cleanup in a static closure so its working variables are local rather than global-scope variables.
