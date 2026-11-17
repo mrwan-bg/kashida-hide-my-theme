@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://github.com/mrwan-bg/kashida-hide-my-theme/releases">
-    <img src="https://img.shields.io/badge/Version-1.5.1-F15B40" alt="Version 1.5.1">
+    <img src="https://img.shields.io/badge/Version-1.5.4-F15B40" alt="Version 1.5.4">
   </a>
   <img src="https://img.shields.io/badge/WordPress-6.0%2B-21759B?logo=wordpress&logoColor=white" alt="WordPress 6.0+">
   <img src="https://img.shields.io/badge/PHP-7.4%2B-777BB4?logo=php&logoColor=white" alt="PHP 7.4+">
@@ -99,11 +99,11 @@ The plugin is designed to avoid modifying the original theme source files, page 
 |---|---|
 | WordPress | 6.0 or later |
 | PHP | 7.4 or later |
-| Web server | Apache / LiteSpeed with supported rewrite and `.htaccess` access |
+| Web server | Apache / LiteSpeed with `mod_rewrite` and writable `.htaccess`; Nginx-only is not supported |
 | Theme setup | Designed for parent themes and child themes |
 | Page builders | Avoids rewriting normal front-end asset URLs and builder output |
 
-Actual behavior depends on server rewrite configuration, filesystem permissions, caching layers, CDN behavior, and theme directory layout. Always use the built-in public metadata verification after configuration.
+Nginx-only servers and WordPress Multisite/network activation are not supported. Actual behavior also depends on server rewrite configuration, filesystem permissions, caching layers, CDN behavior, and theme directory layout. Always use the built-in public metadata verification after configuration.
 
 ## Important Limitations
 
@@ -111,14 +111,14 @@ This plugin replaces selected metadata exposed through the exact endpoints it su
 
 The original theme directory name remains visible in the stylesheet URL and may still reveal the theme. This plugin does not rename theme folders, edit original theme files, change vendor update identifiers, or replace the theme's licensing and update connection.
 
-The rewrite method requires the supported Apache/LiteSpeed configuration. If the required rewrite rules cannot be installed, the original stylesheet response may remain visible. Caches and CDNs may also need to be purged before retesting.
+The rewrite method requires Apache or LiteSpeed with `mod_rewrite` and writable `.htaccess` access. Nginx-only servers and Multisite/network activation are not supported. If the required rewrite rules cannot be installed, the original stylesheet response may remain visible. Caches and CDNs may also need to be purged before retesting.
 
 ## Plugin Information
 
 | Property | Value |
 |---|---|
 | Plugin | Kashida Hide my theme |
-| Current version | 1.5.1 |
+| Current version | 1.5.4 |
 | Developer | Kashida Media Services |
 | Author | Mrwan elGobee |
 | Website | [kashida.ly](https://kashida.ly/) |
