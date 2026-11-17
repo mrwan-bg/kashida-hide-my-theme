@@ -24,3 +24,24 @@ jobs:
       - name: Lint plugin PHP files
         run: |
           find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+
+  build-plugin-zip:
+    name: Build WordPress install ZIP
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Assemble plugin package
+        run: |
+          mkdir -p package/kashida-hide-my-theme
+          cp kashida-hide-my-theme.php uninstall.php readme.txt package/kashida-hide-my-theme/
+          cp -R assets languages package/kashida-hide-my-theme/
+          cd package
+          zip -r ../kashida-hide-my-theme-1.5.5.zip kashida-hide-my-theme
+      - name: Upload install ZIP
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: kashida-hide-my-theme-1.5.5
+          path: kashida-hide-my-theme-1.5.5.zip
+          if-no-files-found: error
+          retention-days: 30
