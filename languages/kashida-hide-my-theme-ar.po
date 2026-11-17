@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Kashida Hide my theme 1.5.1\n"
+"Project-Id-Version: Kashida Hide my theme 1.5.2\n"
 "Report-Msgid-Bugs-To: https://kashida.ly/\n"
 "POT-Creation-Date: 2026-11-11 20:00+0200\n"
 "PO-Revision-Date: 2026-11-11 21:59+0200\n"
@@ -184,11 +184,11 @@ msgstr "لا يمكن ضمان إخفاء بصمات CSS أو مؤشرات HTML 
 msgid "Does not rename theme folders, alter asset URLs, edit original theme files, or change update identifiers."
 msgstr "لا تعيد تسمية مجلدات القوالب، ولا تغيّر روابط الملفات أو تعدّل ملفات القالب الأصلية أو معرّفات التحديث."
 
-msgid "Before enabling direct blocking"
-msgstr "قبل تفعيل الحظر المباشر"
+msgid "Before enabling metadata replacement"
+msgstr "قبل تفعيل استبدال بيانات التعريف"
 
-msgid "Create a backup of .htaccess and test on staging. A third-party component that hard-codes /wp-content/themes/... may stop loading if direct blocking is enabled."
-msgstr "أنشئ نسخة احتياطية من ملف .htaccess واختبر على بيئة تجريبية. قد يتوقف مكوّن خارجي يستخدم مساراً مباشراً من /wp-content/themes/... عن العمل إذا تم تفعيل الحظر المباشر."
+msgid "Back up .htaccess and test on a staging site before enabling metadata replacement. The plugin does not block theme directories or rename theme files."
+msgstr "أنشئ نسخة احتياطية من ملف .htaccess واختبر على بيئة تجريبية قبل تفعيل استبدال بيانات التعريف. لا تحظر الإضافة مجلدات القوالب ولا تعيد تسمية ملفاتها."
 
 msgid "by Mrwan elGobee"
 msgstr "بواسطة مروان القبي"
@@ -198,3 +198,27 @@ msgstr "اسم الإضافة: كشيدة لإخفاء القالب"
 
 msgid "Description: Replace public theme stylesheet metadata safely while preserving original theme files, asset URLs, layouts, and updates."
 msgstr "استبدال بيانات تعريف القالب العامة بأمان مع الحفاظ على ملفات القالب الأصلية وروابط الملفات والتصميم والتحديثات."
+
+msgid "Public author website"
+msgstr "موقع المؤلف العام"
+
+msgid "Public metadata replacement requires Apache or LiteSpeed with mod_rewrite and a writable .htaccess file. Nginx is not supported by this method."
+msgstr "يتطلب استبدال بيانات التعريف العامة خادم Apache أو LiteSpeed مع mod_rewrite وإمكانية الكتابة إلى ملف .htaccess. هذه الطريقة لا تدعم Nginx."
+
+msgid "Network-wide and Multisite activation are not supported because rewrite rules are shared. Use this plugin only on a single-site WordPress installation."
+msgstr "لا يدعم التفعيل على مستوى الشبكة أو WordPress متعدد المواقع لأن قواعد إعادة الكتابة مشتركة. استخدم الإضافة على تثبيت WordPress منفرد فقط."
+
+msgid "The previous metadata rules could not be removed. Back up .htaccess and remove only the Kashida Hide my theme block."
+msgstr "تعذرت إزالة قواعد بيانات التعريف السابقة. أنشئ نسخة احتياطية من .htaccess ثم أزل كتلة Kashida Hide my theme فقط."
+
+msgid "Multisite is not supported. Do not network-activate this plugin; rewrite rules are shared across the network."
+msgstr "لا يدعم النظام متعدد المواقع. لا تفعّل الإضافة على مستوى الشبكة لأن قواعد إعادة الكتابة مشتركة بين المواقع."
+
+msgid "Server compatibility"
+msgstr "توافق الخادم"
+
+msgid "This method requires Apache or LiteSpeed with mod_rewrite. Nginx-only servers and Multisite installations are not supported. A first-change backup is saved as .htaccess.khm-bak when the file is writable."
+msgstr "تتطلب هذه الطريقة Apache أو LiteSpeed مع mod_rewrite. لا تدعم خوادم Nginx فقط أو تثبيتات WordPress متعددة المواقع. تُحفظ نسخة احتياطية باسم .htaccess.khm-bak عند أول تعديل إذا كان الملف قابلاً للكتابة."
+
+msgid "Plugin-managed metadata rules were written to .htaccess. Verify the public endpoint to confirm they are being applied."
+msgstr "تمت كتابة قواعد بيانات التعريف الخاصة بالإضافة في ملف .htaccess. تحقق من نقطة النهاية العامة للتأكد من تطبيقها."

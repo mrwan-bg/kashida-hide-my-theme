@@ -1,9 +1,8 @@
 <?php
 /**
  * Plugin Name: Kashida Hide my theme
- * Plugin URI: https://kashida.ly/
  * Description: Replace public theme stylesheet metadata safely while preserving original theme files, asset URLs, layouts, and updates.
- * Version: 1.5.1
+ * Version: 1.5.4
  * Author: Kashida Media Services
  * Author URI: https://kashida.ly/
  * License: GPL-2.0-or-later
@@ -18,9 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'KHM_VERSION', '1.5.1' );
+define( 'KHM_VERSION', '1.5.4' );
 define( 'KHM_FILE', __FILE__ );
 define( 'KHM_URL', plugin_dir_url( __FILE__ ) );
+define( 'KHM_PATH', plugin_dir_path( __FILE__ ) );
 
 final class Kashida_Hide_My_Theme {
 
@@ -37,12 +37,14 @@ final class Kashida_Hide_My_Theme {
 	}
 
 	private function __construct() {
-		// Load the plugin translation according to the WordPress site locale.
+		// Load bundled translations using the site locale when a local MO file exists.
 		add_action( 'plugins_loaded', array( $this, 'load_site_locale_translation' ), 20 );
+		add_action( 'upgrader_process_complete', array( $this, 'on_theme_upgrade' ), 20, 2 );
+		add_action( 'admin_post_khm_verify_metadata', array( $this, 'handle_verify_metadata' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		add_action( 'admin_init', array( $this, 'sync_rewrite_rules' ), 40 );
 		add_action( 'update_option_' . self::OPTION, array( $this, 'on_settings_updated' ), 10, 2 );
+		add_action( 'added_option', array( $this, 'on_option_added' ), 10, 2 );
 		add_action( 'after_switch_theme', array( $this, 'sync_rewrite_rules' ), 20 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_assets' ) );
 		add_action( 'wp_dashboard_setup', array( $this, 'dashboard_widget' ) );
@@ -59,38 +61,21 @@ final class Kashida_Hide_My_Theme {
 	 * files normally without requiring a manual plugin text-domain loader.
 	 */
 	public function load_site_locale_translation() {
-		$domain = 'kashida-hide-my-theme';
-		$locale = function_exists( 'get_locale' ) ? (string) get_locale() : 'en_US';
-		$is_arabic = ( 0 === strpos( strtolower( $locale ), 'ar' ) );
+		$khm_locale = determine_locale();
+		$khm_domain = 'kashida-hide-my-theme';
+		$khm_pack   = trailingslashit( WP_LANG_DIR ) . 'plugins/' . $khm_domain . '-' . $khm_locale . '.mo';
+		$khm_local  = KHM_PATH . 'languages/' . $khm_domain . '-' . $khm_locale . '.mo';
 
-		// Clear a translation loaded earlier under a different locale.
-		unload_textdomain( $domain );
-
-		if ( $is_arabic ) {
-			$mofile = plugin_dir_path( KHM_FILE ) . 'languages/' . $domain . '-ar.mo';
-			if ( is_readable( $mofile ) ) {
-				load_textdomain( $domain, $mofile );
-			}
+		if ( is_textdomain_loaded( $khm_domain ) ) {
+			return;
 		}
 
-		// Stop just-in-time loading from replacing the site-language choice
-		// with an individual administrator's profile language.
-		add_filter( 'override_load_textdomain', array( $this, 'keep_site_locale_translation' ), 10, 3 );
-	}
-
-	/**
-	 * Keep this plugin's translation fixed to the WordPress site locale.
-	 *
-	 * @param bool   $override Whether to short-circuit loading.
-	 * @param string $domain   Text domain.
-	 * @param string $mofile   Translation file path.
-	 * @return bool
-	 */
-	public function keep_site_locale_translation( $override, $domain, $mofile ) {
-		if ( 'kashida-hide-my-theme' === $domain ) {
-			return true;
+		// Prefer the WordPress.org language pack; use the bundled file only as a fallback.
+		if ( is_readable( $khm_pack ) ) {
+			load_textdomain( $khm_domain, $khm_pack );
+		} elseif ( is_readable( $khm_local ) ) {
+			load_textdomain( $khm_domain, $khm_local );
 		}
-		return $override;
 	}
 
 
@@ -106,8 +91,36 @@ final class Kashida_Hide_My_Theme {
 		}
 	}
 
+	/** Rebuild rules when Settings API creates the option for the first time. */
+	public function on_option_added( $option, $value ) {
+		if ( self::OPTION === $option && current_user_can( 'manage_options' ) ) {
+			$this->sync_rewrite_rules();
+		}
+	}
+
+	/** Rebuild generated metadata after a theme update. */
+	public function on_theme_upgrade( $upgrader, $options ) {
+		if ( ! empty( $options['type'] ) && 'theme' === $options['type'] ) {
+			$this->sync_rewrite_rules();
+		}
+	}
+
+	public static function activate( $network_wide = false ) {
+		if ( is_multisite() && $network_wide ) {
+			update_site_option( 'khm_rewrite_status', 'multisite_unsupported' );
+			return;
+		}
+		self::instance()->sync_rewrite_rules();
+	}
+
 	public static function deactivate() {
-		self::write_rewrite_rules( array() );
+		if ( is_multisite() ) {
+			update_option( 'khm_rewrite_status', 'multisite_unsupported', false );
+			update_site_option( 'khm_rewrite_status', 'multisite_unsupported' );
+			return;
+		}
+		$ok = self::write_rewrite_rules( array() );
+		update_option( 'khm_rewrite_status', $ok ? 'inactive' : 'cleanup_required', false );
 	}
 
 
@@ -118,6 +131,7 @@ final class Kashida_Hide_My_Theme {
 			'theme_author'      => 'Kashida Media Services',
 			'theme_description' => 'A professional WordPress theme identity by Kashida Media Services.',
 			'theme_uri'         => 'https://kashida.ly/',
+			'author_uri'        => 'https://kashida.ly/',
 			'screenshot_id'     => 0,
 			'icon_id'           => 0,
 			'enabled'           => 1,
@@ -173,6 +187,7 @@ final class Kashida_Hide_My_Theme {
 			'theme_author'      => isset( $input['theme_author'] ) ? sanitize_text_field( $input['theme_author'] ) : 'Kashida Media Services',
 			'theme_description' => isset( $input['theme_description'] ) ? sanitize_textarea_field( $input['theme_description'] ) : '',
 			'theme_uri'         => isset( $input['theme_uri'] ) ? esc_url_raw( $input['theme_uri'] ) : '',
+			'author_uri'        => isset( $input['author_uri'] ) ? esc_url_raw( $input['author_uri'] ) : '',
 			'screenshot_id'     => isset( $input['screenshot_id'] ) ? $this->validate_image( $input['screenshot_id'] ) : 0,
 			'icon_id'           => isset( $input['icon_id'] ) ? $this->validate_image( $input['icon_id'] ) : 0,
 			'enabled'            => ! empty( $input['enabled'] ) ? 1 : 0,
@@ -194,6 +209,13 @@ final class Kashida_Hide_My_Theme {
 		wp_enqueue_media();
 		wp_enqueue_style( 'khm-admin', KHM_URL . 'assets/admin.css', array(), KHM_VERSION );
 		wp_enqueue_script( 'khm-admin', KHM_URL . 'assets/admin.js', array( 'jquery' ), KHM_VERSION, true );
+		wp_localize_script( 'khm-admin', 'khmAdminStrings', array(
+			'noIcon'       => __( 'No icon selected', 'kashida-hide-my-theme' ),
+			'noImage'      => __( 'No image selected', 'kashida-hide-my-theme' ),
+			'selectIcon'   => __( 'Select theme icon', 'kashida-hide-my-theme' ),
+			'selectScreen' => __( 'Select theme screenshot', 'kashida-hide-my-theme' ),
+			'useImage'     => __( 'Use image', 'kashida-hide-my-theme' ),
+		) );
 	}
 
 	public function plugin_action_links( $links ) {
@@ -229,6 +251,18 @@ final class Kashida_Hide_My_Theme {
 
 			if ( $s['theme_name'] ) {
 				$themes[ $slug ]['name'] = $s['theme_name'];
+			}
+			if ( $s['theme_author'] ) {
+				$themes[ $slug ]['author'] = $s['theme_author'];
+			}
+			if ( $s['theme_version'] ) {
+				$themes[ $slug ]['version'] = $s['theme_version'];
+			}
+			if ( $s['theme_description'] ) {
+				$themes[ $slug ]['description'] = $s['theme_description'];
+			}
+			if ( $s['theme_uri'] ) {
+				$themes[ $slug ]['themeURI'] = $s['theme_uri'];
 			}
 			if ( $url ) {
 				$themes[ $slug ]['screenshot'] = array( $url );
@@ -267,6 +301,24 @@ final class Kashida_Hide_My_Theme {
 	}
 
 	/**
+	 * Initialize and return the WordPress filesystem API.
+	 *
+	 * @return WP_Filesystem_Base|false
+	 */
+	private function filesystem() {
+		global $wp_filesystem;
+		if ( ! $wp_filesystem ) {
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+			}
+			if ( ! WP_Filesystem() ) {
+				return false;
+			}
+		}
+		return $wp_filesystem ? $wp_filesystem : false;
+	}
+
+	/**
 	 * Build a public style.css copy containing plugin-defined theme metadata.
 	 * The CSS body is copied byte-for-byte; the original theme file is untouched.
 	 *
@@ -292,7 +344,9 @@ final class Kashida_Hide_My_Theme {
 			'Theme Name'        => $use_custom && $s['theme_name'] ? $s['theme_name'] : $theme->get( 'Name' ),
 			'Theme URI'         => $use_custom && $s['theme_uri'] ? $s['theme_uri'] : $theme->get( 'ThemeURI' ),
 			'Author'            => $use_custom && $s['theme_author'] ? $s['theme_author'] : $theme->get( 'Author' ),
-			'Author URI'        => $use_custom && $s['theme_uri'] ? $s['theme_uri'] : $theme->get( 'AuthorURI' ),
+			// Theme URI identifies the theme; Author URI identifies its author.
+			// Keep the original author URL because there is no separate author-URL setting.
+			'Author URI'        => $use_custom && ! empty( $s['author_uri'] ) ? $s['author_uri'] : $theme->get( 'AuthorURI' ),
 			'Description'       => $use_custom && $s['theme_description'] ? $s['theme_description'] : $theme->get( 'Description' ),
 			'Version'           => $use_custom && $s['theme_version'] ? $s['theme_version'] : $theme->get( 'Version' ),
 			// Keep legal and compatibility declarations accurate; omit vendor-specific
@@ -301,6 +355,7 @@ final class Kashida_Hide_My_Theme {
 			'License URI'       => $theme->get( 'LicenseURI' ),
 			'Requires at least' => $theme->get( 'RequiresWP' ),
 			'Requires PHP'      => $theme->get( 'RequiresPHP' ),
+			'Template'          => $theme->get( 'Template' ),
 		);
 
 		$header = "/*\n";
@@ -319,20 +374,28 @@ final class Kashida_Hide_My_Theme {
 		}
 
 		$target = trailingslashit( $directory ) . 'style.css';
-		$css = file_get_contents( $source );
+		$filesystem = $this->filesystem();
+		if ( ! $filesystem || ! $filesystem->is_readable( $source ) ) {
+			return '';
+		}
+		$css = $filesystem->get_contents( $source );
 		if ( false === $css ) {
 			return '';
 		}
 
 		// Strip only the initial theme metadata comment. Keep all CSS rules and source content.
-		$body = preg_replace( '/\A(?:\xEF\xBB\xBF)?\s*\/\*[\s\S]*?\*\/\s*/', '', $css, 1 );
+		$body = $css;
+		if ( preg_match( '/\A(?:\xEF\xBB\xBF)?\s*\/\*([\s\S]*?)\*\//', $css, $matches ) && false !== stripos( $matches[1], 'Theme Name:' ) ) {
+			$body = preg_replace( '/\A(?:\xEF\xBB\xBF)?\s*\/\*[\s\S]*?\*\/\s*/', '', $css, 1 );
+		}
 		if ( ! is_string( $body ) ) {
 			return '';
 		}
 
 		$content = $header . "\n" . $body;
-		if ( ! file_exists( $target ) || false === file_get_contents( $target ) || hash_file( 'sha256', $target ) !== hash( 'sha256', $content ) ) {
-			if ( false === file_put_contents( $target, $content, LOCK_EX ) ) {
+		$existing = $filesystem->exists( $target ) ? $filesystem->get_contents( $target ) : false;
+		if ( false === $existing || hash( 'sha256', $existing ) !== hash( 'sha256', $content ) ) {
+			if ( ! $filesystem->put_contents( $target, $content, FS_CHMOD_FILE ) ) {
 				return '';
 			}
 		}
@@ -381,20 +444,44 @@ final class Kashida_Hide_My_Theme {
 			}
 		}
 
-		$token = substr( hash_hmac( 'sha256', 'screenshot|' . $attachment_id . '|' . (int) @filemtime( $source ), wp_salt( 'auth' ) ), 0, 20 );
+		$filesystem = $this->filesystem();
+		if ( ! $filesystem || ! $filesystem->is_readable( $source ) ) {
+			return '';
+		}
+		$source_contents = $filesystem->get_contents( $source );
+		if ( false === $source_contents ) {
+			return '';
+		}
+		$source_hash = hash( 'sha256', $source_contents );
+		$source_mtime = (int) $filesystem->mtime( $source );
+		$token = substr( hash_hmac( 'sha256', 'screenshot|' . $attachment_id . '|' . $source_mtime . '|' . $source_hash, wp_salt( 'auth' ) ), 0, 20 );
 		$directory = trailingslashit( $uploads['basedir'] ) . 'kashida-hide-my-theme/' . $token;
 		if ( ! wp_mkdir_p( $directory ) ) {
 			return '';
 		}
 
 		$target = trailingslashit( $directory ) . 'theme-screenshot.' . $extension;
-		if ( ! file_exists( $target ) || (int) @filemtime( $target ) < (int) @filemtime( $source ) || filesize( $target ) !== filesize( $source ) ) {
-			if ( ! copy( $source, $target ) ) {
+		$target_contents = $filesystem->exists( $target ) ? $filesystem->get_contents( $target ) : false;
+		if ( false === $target_contents || hash( 'sha256', $target_contents ) !== $source_hash ) {
+			if ( ! $filesystem->copy( $source, $target, true, FS_CHMOD_FILE ) ) {
 				return '';
 			}
 		}
 
 		return $this->relative_to_home( $target );
+	}
+
+	/** Escape a filesystem-relative path for an Apache RewriteRule pattern. */
+	private function apache_regex_path( $path ) {
+		$path = str_replace( '\\', '/', $path );
+		$path = preg_quote( $path, '~' );
+		return str_replace( array( ' ', '#' ), array( '\\x20', '\\#' ), $path );
+	}
+
+	/** Encode a filesystem-relative path for an Apache rewrite substitution. */
+	private function apache_target_path( $path ) {
+		$segments = explode( '/', str_replace( '\\', '/', $path ) );
+		return implode( '/', array_map( 'rawurlencode', $segments ) );
 	}
 
 	/**
@@ -411,7 +498,7 @@ final class Kashida_Hide_My_Theme {
 		}
 
 		$slugs = array_unique( array_filter( array( get_stylesheet(), get_template() ) ) );
-		$rules = array( 'RewriteEngine On' );
+		$rules = array( '<IfModule mod_rewrite.c>', 'RewriteEngine On' );
 
 		// Replace only theme-directory screenshot endpoints with the image selected
 		// in Kashida settings. Map both child and parent theme paths because
@@ -427,7 +514,7 @@ final class Kashida_Hide_My_Theme {
 				}
 				$screenshot_names = array( 'screenshot.png', 'screenshot.jpg', 'screenshot.jpeg', 'screenshot.webp', 'screenshot.gif' );
 				foreach ( $screenshot_names as $screenshot_name ) {
-					$rules[] = 'RewriteRule ^' . preg_quote( trailingslashit( $theme_rel ) . $screenshot_name, '#' ) . '$ ' . str_replace( '\\', '/', $public_screenshot ) . ' [L,NC]';
+					$rules[] = 'RewriteRule ^' . $this->apache_regex_path( trailingslashit( $theme_rel ) . $screenshot_name ) . '$ ' . $this->apache_target_path( $public_screenshot ) . ' [L,NC]';
 				}
 			}
 		}
@@ -442,20 +529,39 @@ final class Kashida_Hide_My_Theme {
 				continue;
 			}
 
-			$source_rule = preg_quote( str_replace( '\\', '/', $source_relative ), '#' );
-			$rules[] = 'RewriteRule ^' . $source_rule . '$ ' . str_replace( '\\', '/', $target_relative ) . ' [L,NC]';
+			$source_rule = $this->apache_regex_path( $source_relative );
+			$rules[] = 'RewriteRule ^' . $source_rule . '$ ' . $this->apache_target_path( $target_relative ) . ' [L,NC]';
 		}
 
-		return count( $rules ) > 1 ? $rules : array();
+		if ( count( $rules ) > 2 ) {
+			$rules[] = '</IfModule>';
+			return $rules;
+		}
+		return array();
 	}
 
 	public function sync_rewrite_rules() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( is_admin() && ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		if ( is_multisite() ) {
+			update_option( 'khm_rewrite_status', 'multisite_unsupported', false );
+			update_site_option( 'khm_rewrite_status', 'multisite_unsupported' );
+			return;
+		}
+		if ( ! self::server_supports_rewrites() ) {
+			update_option( 'khm_rewrite_status', 'server_unsupported', false );
 			return;
 		}
 		$lines = $this->rewrite_lines();
 		$ok = self::write_rewrite_rules( $lines );
-		update_option( 'khm_rewrite_status', $ok ? 'ok' : ( empty( $lines ) ? 'inactive' : 'failed' ), false );
+		update_option( 'khm_rewrite_status', $ok ? ( empty( $lines ) ? 'inactive' : 'ok' ) : ( empty( $lines ) ? 'cleanup_required' : 'failed' ), false );
+	}
+
+	private static function server_supports_rewrites() {
+		global $is_apache;
+		$software = isset( $_SERVER['SERVER_SOFTWARE'] ) ? strtolower( sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) ) : '';
+		return ( ! empty( $is_apache ) || function_exists( 'is_apache' ) && is_apache() || false !== strpos( $software, 'litespeed' ) );
 	}
 
 	/**
@@ -493,7 +599,7 @@ final class Kashida_Hide_My_Theme {
 					'timeout'     => 8,
 					'redirection' => 2,
 					'headers'     => array( 'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache' ),
-					'sslverify'   => apply_filters( 'https_local_ssl_verify', false ),
+					'sslverify'   => true,
 				)
 			);
 
@@ -520,7 +626,7 @@ final class Kashida_Hide_My_Theme {
 						'timeout'     => 8,
 						'redirection' => 2,
 						'headers'     => array( 'Cache-Control' => 'no-cache', 'Pragma' => 'no-cache' ),
-						'sslverify'   => apply_filters( 'https_local_ssl_verify', false ),
+						'sslverify'   => true,
 					)
 				);
 
@@ -567,61 +673,83 @@ final class Kashida_Hide_My_Theme {
 	}
 
 	private static function write_rewrite_rules( $lines ) {
-		if ( ! function_exists( 'get_home_path' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-		}
+		$khm_lock_key   = 'khm_htaccess_write_lock';
+		$khm_lock_token = wp_generate_password( 32, false, false );
+		$khm_lock_data  = get_option( $khm_lock_key, array() );
+		$khm_lock_time  = is_array( $khm_lock_data ) && isset( $khm_lock_data['created'] ) ? absint( $khm_lock_data['created'] ) : 0;
+		$khm_lock_value = array( 'token' => $khm_lock_token, 'created' => time() );
 
-		global $wp_filesystem;
-
-		$file = trailingslashit( get_home_path() ) . '.htaccess';
-
-		// Use WordPress' filesystem abstraction so direct filesystem calls are
-		// avoided and non-direct filesystem transports are respected.
-		if ( ! $wp_filesystem && ! WP_Filesystem() ) {
+		if ( is_multisite() ) {
 			return false;
 		}
 
-		if ( ! $wp_filesystem || ! $wp_filesystem->exists( $file ) ) {
-			return empty( $lines );
-		}
-
-		if ( ! $wp_filesystem->is_readable( $file ) || ! $wp_filesystem->is_writable( $file ) ) {
-			return false;
-		}
-
-		$contents = $wp_filesystem->get_contents( $file );
-		if ( false === $contents ) {
-			return false;
-		}
-
-		$begin = '# BEGIN ' . self::MARKER;
-		$end   = '# END ' . self::MARKER;
-
-		// Remove the previous managed block without touching any other directives.
-		$pattern = '/(?:\r?\n)?' . preg_quote( $begin, '/' ) . '\r?\n.*?\r?\n' . preg_quote( $end, '/' ) . '(?:\r?\n)?/s';
-		$contents = preg_replace( $pattern, "\n", $contents, 1, $removed );
-		if ( ! is_string( $contents ) ) {
-			return false;
-		}
-
-		if ( ! empty( $lines ) ) {
-			$block = $begin . "\n" . implode( "\n", array_map( 'strval', $lines ) ) . "\n" . $end . "\n";
-
-			// Put KHM rules before WordPress' front-controller rules. This is
-			// essential for theme screenshot endpoints that may otherwise be
-			// routed to index.php before the KHM rule is evaluated.
-			$wp_marker = '# BEGIN WordPress';
-			$wp_position = strpos( $contents, $wp_marker );
-
-			if ( false !== $wp_position ) {
-				$contents = substr( $contents, 0, $wp_position ) . $block . "\n" . substr( $contents, $wp_position );
-			} else {
-				$contents = $block . "\n" . ltrim( $contents, "\r\n" );
+		// add_option() is atomic for a unique option name; remove only stale locks.
+		if ( ! add_option( $khm_lock_key, $khm_lock_value, '', 'no' ) ) {
+			if ( ! $khm_lock_time || ( time() - $khm_lock_time ) <= 60 ) {
+				return false;
+			}
+			delete_option( $khm_lock_key );
+			if ( ! add_option( $khm_lock_key, $khm_lock_value, '', 'no' ) ) {
+				return false;
 			}
 		}
-
-		return $wp_filesystem->put_contents( $file, $contents, FS_CHMOD_FILE );
+		try {
+			if ( ! function_exists( 'get_home_path' ) || ! function_exists( 'WP_Filesystem' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/file.php';
+			}
+			global $wp_filesystem;
+			$file = trailingslashit( get_home_path() ) . '.htaccess';
+			if ( ! $wp_filesystem && ! WP_Filesystem() ) {
+				return false;
+			}
+			if ( ! $wp_filesystem || ! $wp_filesystem->exists( $file ) ) {
+				return empty( $lines );
+			}
+			if ( ! $wp_filesystem->is_readable( $file ) || ! $wp_filesystem->is_writable( $file ) ) {
+				return false;
+			}
+			$contents = $wp_filesystem->get_contents( $file );
+			if ( false === $contents ) {
+				return false;
+			}
+			$begin = '# BEGIN ' . self::MARKER;
+			$end = '# END ' . self::MARKER;
+			$pattern = '/(?:\r?\n)?' . preg_quote( $begin, '/' ) . '\r?\n.*?\r?\n' . preg_quote( $end, '/' ) . '(?:\r?\n)?/s';
+			$contents = preg_replace( $pattern, '', $contents, 1 );
+			if ( ! is_string( $contents ) ) {
+				return false;
+			}
+			$contents = preg_replace( "/\n{3,}/", "\n\n", $contents );
+			if ( ! empty( $lines ) ) {
+				$block = $begin . "\n" . implode( "\n", array_map( 'strval', $lines ) ) . "\n" . $end . "\n";
+				$wp_marker = '# BEGIN WordPress';
+				$wp_position = strpos( $contents, $wp_marker );
+				if ( false !== $wp_position ) {
+					$contents = substr( $contents, 0, $wp_position ) . $block . "\n" . substr( $contents, $wp_position );
+				} else {
+					$contents = $block . "\n" . ltrim( $contents, "\r\n" );
+				}
+			}
+			$current = $wp_filesystem->get_contents( $file );
+			if ( false === $current ) {
+				return false;
+			}
+			if ( $current === $contents ) {
+				return true;
+			}
+			$backup = $file . '.khm-bak';
+			if ( ! $wp_filesystem->exists( $backup ) && ! $wp_filesystem->put_contents( $backup, $current, FS_CHMOD_FILE ) ) {
+				return false;
+			}
+			return (bool) $wp_filesystem->put_contents( $file, $contents, FS_CHMOD_FILE );
+		} finally {
+			$khm_current_lock = get_option( $khm_lock_key, array() );
+			if ( is_array( $khm_current_lock ) && isset( $khm_current_lock['token'] ) && hash_equals( $khm_lock_token, $khm_current_lock['token'] ) ) {
+				delete_option( $khm_lock_key );
+			}
+		}
 	}
+
 
 	public function dashboard_widget() {
 		if ( ! $this->active_profile() ) {
@@ -647,6 +775,16 @@ final class Kashida_Hide_My_Theme {
 		<?php
 	}
 
+	public function handle_verify_metadata() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You are not allowed to perform this action.', 'kashida-hide-my-theme' ) );
+		}
+		check_admin_referer( 'khm_verify_metadata' );
+		update_option( 'khm_verification_result', $this->verify_public_metadata(), false );
+		wp_safe_redirect( admin_url( 'tools.php?page=kashida-hide-my-theme&khm-verified=1' ) );
+		exit;
+	}
+
 	public function settings_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
@@ -656,6 +794,7 @@ final class Kashida_Hide_My_Theme {
 		$name = $s['theme_name'];
 		$version = $s['theme_version'];
 		$author = $s['theme_author'];
+		$author_uri = $s['author_uri'];
 		$description = $s['theme_description'];
 		$theme_uri = $s['theme_uri'];
 		$screenshot = absint( $s['screenshot_id'] );
@@ -663,15 +802,8 @@ final class Kashida_Hide_My_Theme {
 		$enabled = ! empty( $s['enabled'] );
 		$screen_url = $this->image_url( $screenshot );
 		$icon_url = $this->image_url( $icon );
-		$status = get_option( 'khm_rewrite_status', 'inactive' );
-		$verification = null;
-		if ( isset( $_GET['khm_verify_now'] ) && '1' === sanitize_text_field( wp_unslash( $_GET['khm_verify_now'] ) ) ) {
-			check_admin_referer( 'khm_verify_metadata' );
-			$verification = $this->verify_public_metadata();
-			update_option( 'khm_verification_result', $verification, false );
-		} else {
-			$verification = get_option( 'khm_verification_result', null );
-		}
+		$status = is_multisite() ? 'multisite_unsupported' : get_option( 'khm_rewrite_status', 'inactive' );
+		$verification = get_option( 'khm_verification_result', null );
 		$theme = wp_get_theme();
 		?>
 		<div class="wrap khm-wrap">
@@ -680,14 +812,11 @@ final class Kashida_Hide_My_Theme {
 				<div><div class="khm-title"><h1><?php esc_html_e( 'Kashida Hide my theme', 'kashida-hide-my-theme' ); ?></h1><span>v<?php echo esc_html( KHM_VERSION ); ?></span></div><p><?php esc_html_e( 'Universal theme identity settings for any active WordPress theme.', 'kashida-hide-my-theme' ); ?></p></div>
 			</header>
 
+			<?php if ( is_multisite() ) : ?><div class="notice notice-error"><p><?php esc_html_e( 'Multisite is not supported. Do not network-activate this plugin; rewrite rules are shared across the network.', 'kashida-hide-my-theme' ); ?></p></div><?php endif; ?>
 			<div class="notice notice-info"><p><strong><?php esc_html_e( 'Safe metadata mode:', 'kashida-hide-my-theme' ); ?></strong> <?php esc_html_e( 'Only the theme style.css metadata response and theme-directory screenshot endpoint are internally served from generated copies. Original URLs stay the same; CSS rules, page images, fonts, scripts, page-builder output and theme files are not modified.', 'kashida-hide-my-theme' ); ?></p></div>
 			<?php if ( 'cleanup_required' === get_option( 'khm_rewrite_status' ) ) : ?>
 				<div class="notice notice-error"><p><?php esc_html_e( 'The plugin could not remove its previous rewrite rules from .htaccess. Please remove the block between the Kashida Hide my theme markers manually after backing up the file.', 'kashida-hide-my-theme' ); ?></p></div>
 			<?php endif; ?>
-			<?php if ( isset( $_GET['settings-updated'] ) && 'true' === sanitize_text_field( wp_unslash( $_GET['settings-updated'] ) ) ) : ?>
-				<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Settings saved. Check the rewrite status below before testing your public site.', 'kashida-hide-my-theme' ); ?></p></div>
-			<?php endif; ?>
-
 			<div class="khm-layout">
 				<main class="khm-card">
 					<div class="khm-section-head"><div><h2><?php esc_html_e( 'Theme identity', 'kashida-hide-my-theme' ); ?></h2><p><?php esc_html_e( 'These settings apply to the currently active theme and are not tied to a specific theme vendor or directory.', 'kashida-hide-my-theme' ); ?></p></div><span class="khm-pill <?php echo $enabled ? 'active' : ''; ?>"><?php echo $enabled ? esc_html__( 'Enabled', 'kashida-hide-my-theme' ) : esc_html__( 'Disabled', 'kashida-hide-my-theme' ); ?></span></div>
@@ -699,6 +828,7 @@ final class Kashida_Hide_My_Theme {
 
 						<div class="khm-field"><label for="khm-version"><?php esc_html_e( 'Public theme version', 'kashida-hide-my-theme' ); ?></label><input id="khm-version" class="regular-text" maxlength="30" name="<?php echo esc_attr( self::OPTION ); ?>[theme_version]" value="<?php echo esc_attr( $version ); ?>" placeholder="1.0.0" /></div>
 						<div class="khm-field"><label for="khm-author"><?php esc_html_e( 'Public theme author', 'kashida-hide-my-theme' ); ?></label><input id="khm-author" class="regular-text" maxlength="80" name="<?php echo esc_attr( self::OPTION ); ?>[theme_author]" value="<?php echo esc_attr( $author ); ?>" /></div>
+						<div class="khm-field"><label for="khm-author-uri"><?php esc_html_e( 'Public author website', 'kashida-hide-my-theme' ); ?></label><input id="khm-author-uri" class="regular-text" type="url" maxlength="200" name="<?php echo esc_attr( self::OPTION ); ?>[author_uri]" value="<?php echo esc_attr( $author_uri ); ?>" /></div>
 						<div class="khm-field"><label for="khm-description"><?php esc_html_e( 'Public theme description', 'kashida-hide-my-theme' ); ?></label><textarea id="khm-description" class="large-text" rows="3" maxlength="250" name="<?php echo esc_attr( self::OPTION ); ?>[theme_description]"><?php echo esc_textarea( $description ); ?></textarea></div>
 						<div class="khm-field"><label for="khm-uri"><?php esc_html_e( 'Public theme website', 'kashida-hide-my-theme' ); ?></label><input id="khm-uri" class="regular-text" type="url" maxlength="200" name="<?php echo esc_attr( self::OPTION ); ?>[theme_uri]" value="<?php echo esc_attr( $theme_uri ); ?>" /></div>
 
@@ -715,11 +845,14 @@ final class Kashida_Hide_My_Theme {
 
 				<aside class="khm-side">
 					<section class="khm-card"><h2><?php esc_html_e( 'Metadata replacement status', 'kashida-hide-my-theme' ); ?></h2>
-						<?php if ( 'ok' === $status ) : ?><p class="khm-result good"><span class="dashicons dashicons-yes-alt"></span><?php esc_html_e( 'Plugin-managed style.css metadata rules are active.', 'kashida-hide-my-theme' ); ?></p>
+						<?php if ( 'ok' === $status ) : ?><p class="khm-result good"><span class="dashicons dashicons-yes-alt"></span><?php esc_html_e( 'Plugin-managed metadata rules were written to .htaccess. Verify the public endpoint to confirm they are being applied.', 'kashida-hide-my-theme' ); ?></p>
+						<?php elseif ( 'server_unsupported' === $status ) : ?><p class="khm-result bad"><span class="dashicons dashicons-warning"></span><?php esc_html_e( 'Public metadata replacement requires Apache or LiteSpeed with mod_rewrite and a writable .htaccess file. Nginx is not supported by this method.', 'kashida-hide-my-theme' ); ?></p>
+						<?php elseif ( 'multisite_unsupported' === $status ) : ?><p class="khm-result bad"><span class="dashicons dashicons-warning"></span><?php esc_html_e( 'Network-wide and Multisite activation are not supported because rewrite rules are shared. Use this plugin only on a single-site WordPress installation.', 'kashida-hide-my-theme' ); ?></p>
+						<?php elseif ( 'cleanup_required' === $status ) : ?><p class="khm-result bad"><span class="dashicons dashicons-warning"></span><?php esc_html_e( 'The previous metadata rules could not be removed. Back up .htaccess and remove only the Kashida Hide my theme block.', 'kashida-hide-my-theme' ); ?></p>
 						<?php elseif ( 'failed' === $status ) : ?><p class="khm-result bad"><span class="dashicons dashicons-warning"></span><?php esc_html_e( 'Could not write metadata rules. Check .htaccess permissions; the original theme remains unaffected.', 'kashida-hide-my-theme' ); ?></p>
 						<?php else : ?><p class="khm-result neutral"><?php esc_html_e( 'Metadata replacement is inactive.', 'kashida-hide-my-theme' ); ?></p><?php endif; ?>
 						<p class="description"><?php esc_html_e( 'Only exact style.css and theme screenshot metadata endpoints are internally mapped. Metadata rules run before WordPress front-controller rules; all other front-end URLs and theme files remain untouched.', 'kashida-hide-my-theme' ); ?></p>
-						<p><a class="button button-secondary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'khm_verify_now', '1', admin_url( 'tools.php?page=kashida-hide-my-theme' ) ), 'khm_verify_metadata' ) ); ?>"><?php esc_html_e( 'Verify public metadata now', 'kashida-hide-my-theme' ); ?></a></p>
+						<p><a class="button button-secondary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=khm_verify_metadata' ), 'khm_verify_metadata' ) ); ?>"><?php esc_html_e( 'Verify public metadata now', 'kashida-hide-my-theme' ); ?></a></p>
 						<?php if ( is_array( $verification ) ) : ?>
 							<?php
 							// Render diagnostic text at display time using the current site locale.
@@ -743,7 +876,7 @@ final class Kashida_Hide_My_Theme {
 						<?php endif; ?>
 					</section>
 					<section class="khm-card"><h2><?php esc_html_e( 'What this can and cannot hide', 'kashida-hide-my-theme' ); ?></h2><ul class="khm-list"><li><?php esc_html_e( 'Replaces public style.css theme metadata with the identity configured here.', 'kashida-hide-my-theme' ); ?></li><li><?php esc_html_e( 'Keeps the original stylesheet URL and CSS content unchanged.', 'kashida-hide-my-theme' ); ?></li><li><?php esc_html_e( 'Cannot guarantee concealment of CSS fingerprints, HTML signatures, plugin metadata, cached URLs, or hard-coded asset paths.', 'kashida-hide-my-theme' ); ?></li><li><?php esc_html_e( 'Does not rename theme folders, alter asset URLs, edit original theme files, or change update identifiers.', 'kashida-hide-my-theme' ); ?></li></ul></section>
-					<section class="khm-card khm-warning"><h2><?php esc_html_e( 'Before enabling direct blocking', 'kashida-hide-my-theme' ); ?></h2><p><?php esc_html_e( 'Create a backup of .htaccess and test on staging. A third-party component that hard-codes /wp-content/themes/... may stop loading if direct blocking is enabled.', 'kashida-hide-my-theme' ); ?></p></section>
+					<section class="khm-card khm-warning"><h2><?php esc_html_e( 'Server compatibility', 'kashida-hide-my-theme' ); ?></h2><p><?php esc_html_e( 'This method requires Apache or LiteSpeed with mod_rewrite. Nginx-only servers and Multisite installations are not supported. A first-change backup is saved as .htaccess.khm-bak when the file is writable.', 'kashida-hide-my-theme' ); ?></p></section>
 				</aside>
 			</div>
 			<footer class="khm-footer"><div><img src="<?php echo esc_url( KHM_URL . 'assets/kashida-mark.svg' ); ?>" alt="" /><strong>Kashida Media Services</strong> <?php esc_html_e( 'by Mrwan elGobee', 'kashida-hide-my-theme' ); ?></div><a href="https://kashida.ly/" target="_blank" rel="noopener noreferrer">kashida.ly</a></footer>
@@ -753,4 +886,5 @@ final class Kashida_Hide_My_Theme {
 }
 
 Kashida_Hide_My_Theme::instance();
+register_activation_hook( __FILE__, array( 'Kashida_Hide_My_Theme', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'Kashida_Hide_My_Theme', 'deactivate' ) );

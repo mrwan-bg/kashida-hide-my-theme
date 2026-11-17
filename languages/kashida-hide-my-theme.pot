@@ -1,5 +1,5 @@
 msgid ""
-msgstr "Project-Id-Version: Kashida Hide my theme 1.5.1\nReport-Msgid-Bugs-To: https://kashida.ly/\nPOT-Creation-Date: 2026-11-11 20:00+0200\nPO-Revision-Date: 2026-11-11 20:00+0200\nLast-Translator: Kashida Media Services\nLanguage-Team: Arabic\nLanguage: ar\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\nX-Generator: Kashida Media Services\n"
+msgstr "Project-Id-Version: Kashida Hide my theme 1.5.2\nReport-Msgid-Bugs-To: https://kashida.ly/\nPOT-Creation-Date: 2026-11-11 20:00+0200\nPO-Revision-Date: 2026-11-11 20:00+0200\nLast-Translator: Kashida Media Services\nLanguage-Team: Arabic\nLanguage: ar\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\nX-Generator: Kashida Media Services\n"
 
 msgid "Kashida Hide my theme"
 msgstr ""
@@ -172,11 +172,35 @@ msgstr ""
 msgid "Does not rename theme folders, alter asset URLs, edit original theme files, or change update identifiers."
 msgstr ""
 
-msgid "Before enabling direct blocking"
+msgid "Before enabling metadata replacement"
 msgstr ""
 
-msgid "Create a backup of .htaccess and test on staging. A third-party component that hard-codes /wp-content/themes/... may stop loading if direct blocking is enabled."
+msgid "Back up .htaccess and test on a staging site before enabling metadata replacement. The plugin does not block theme directories or rename theme files."
 msgstr ""
 
 msgid "by Mrwan elGobee"
+msgstr ""
+
+msgid "Public author website"
+msgstr ""
+
+msgid "Public metadata replacement requires Apache or LiteSpeed with mod_rewrite and a writable .htaccess file. Nginx is not supported by this method."
+msgstr ""
+
+msgid "Network-wide and Multisite activation are not supported because rewrite rules are shared. Use this plugin only on a single-site WordPress installation."
+msgstr ""
+
+msgid "The previous metadata rules could not be removed. Back up .htaccess and remove only the Kashida Hide my theme block."
+msgstr ""
+
+msgid "Multisite is not supported. Do not network-activate this plugin; rewrite rules are shared across the network."
+msgstr ""
+
+msgid "Server compatibility"
+msgstr ""
+
+msgid "This method requires Apache or LiteSpeed with mod_rewrite. Nginx-only servers and Multisite installations are not supported. A first-change backup is saved as .htaccess.khm-bak when the file is writable."
+msgstr ""
+
+msgid "Plugin-managed metadata rules were written to .htaccess. Verify the public endpoint to confirm they are being applied."
 msgstr ""
