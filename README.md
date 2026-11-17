@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://github.com/mrwan-bg/kashida-hide-my-theme/releases">
-    <img src="https://img.shields.io/badge/Version-1.5.4-F15B40" alt="Version 1.5.4">
+    <img src="https://img.shields.io/badge/Version-1.5.5-F15B40" alt="Version 1.5.5">
   </a>
   <img src="https://img.shields.io/badge/WordPress-6.0%2B-21759B?logo=wordpress&logoColor=white" alt="WordPress 6.0+">
   <img src="https://img.shields.io/badge/PHP-7.4%2B-777BB4?logo=php&logoColor=white" alt="PHP 7.4+">
@@ -56,7 +56,7 @@ Set your own theme name, version, author, description, website URL, and screensh
 ## Feature Overview
 
 <p align="center">
-  <img src="screen/screen%20a%20(1).png" alt="Kashida Hide My Theme feature overview: theme and plugin information privacy, detection reduction, and custom replacements" width="100%">
+  <img src="screen/screen%20a%20(1).png" alt="Kashida Hide My Theme overview of supported theme identity replacement features" width="100%">
 </p>
 
 ## Custom Theme Identity
@@ -67,9 +67,9 @@ Configure your replacement theme identity and screenshot. The public response ca
   <img src="screen/screen%20a%20(2).png" alt="Custom theme identity settings and before-and-after public theme details" width="100%">
 </p>
 
-## Theme Information Privacy Controls
+## Supported Theme Identity Controls
 
-Choose which supported theme and site details should be concealed or replaced, including theme information and generator metadata.
+Review the supported theme identity fields that can be replaced through the plugin's public stylesheet and WordPress administration integrations.
 
 <p align="center">
   <img src="screen/screen%20a%20(3).png" alt="Before-and-after theme information privacy controls" width="100%">
@@ -118,7 +118,7 @@ The rewrite method requires Apache or LiteSpeed with `mod_rewrite` and writable 
 | Property | Value |
 |---|---|
 | Plugin | Kashida Hide my theme |
-| Current version | 1.5.4 |
+| Current version | 1.5.5 |
 | Developer | Kashida Media Services |
 | Author | Mrwan elGobee |
 | Website | [kashida.ly](https://kashida.ly/) |
@@ -219,9 +219,9 @@ Developer: **Mrwan elGobee**
   <img src="screen/screen%20a%20(2).png" alt="تخصيص بيانات وصورة هوية القالب" width="100%">
 </p>
 
-### 3. التحكم في معلومات القالب والخصوصية
+### 3. التحكم في بيانات هوية القالب المدعومة
 
-توضح الصورة فكرة التحكم في المعلومات التي تظهر عن الموقع، مثل اسم القالب وإصداره وبعض بيانات ووردبريس والإضافات ووسوم التعريف، بحسب الخيارات ونقاط الإخراج التي تدعمها الإضافة.
+توضح الصورة خيارات التحكم في بيانات هوية القالب التي تدعمها الإضافة، مثل الاسم والإصدار والمؤلف والوصف وصورة القالب، ضمن شاشات الإدارة ونقاط الوصول العامة المحددة.
 
 <p align="center">
   <img src="screen/screen%20a%20(3).png" alt="التحكم في معلومات القالب والبيانات التعريفية" width="100%">
@@ -270,7 +270,7 @@ Developer: **Mrwan elGobee**
 | الخاصية | التفاصيل |
 |---|---|
 | اسم الإضافة | Kashida Hide my theme |
-| الإصدار | 1.5.1 |
+| الإصدار | 1.5.5 |
 | المطوّر | Kashida Media Services |
 | المؤلف | Mrwan elGobee |
 | الموقع | [kashida.ly](https://kashida.ly/) |
