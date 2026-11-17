@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Kashida Hide my theme
  * Description: Replace public theme stylesheet metadata safely while preserving original theme files, asset URLs, layouts, and updates.
- * Version: 1.5.4
+ * Version: 1.5.5
  * Author: Kashida Media Services
  * Author URI: https://kashida.ly/
  * License: GPL-2.0-or-later
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'KHM_VERSION', '1.5.4' );
+define( 'KHM_VERSION', '1.5.5' );
 define( 'KHM_FILE', __FILE__ );
 define( 'KHM_URL', plugin_dir_url( __FILE__ ) );
 define( 'KHM_PATH', plugin_dir_path( __FILE__ ) );
@@ -355,7 +355,6 @@ final class Kashida_Hide_My_Theme {
 			'License URI'       => $theme->get( 'LicenseURI' ),
 			'Requires at least' => $theme->get( 'RequiresWP' ),
 			'Requires PHP'      => $theme->get( 'RequiresPHP' ),
-			'Template'          => $theme->get( 'Template' ),
 		);
 
 		$header = "/*\n";
@@ -610,7 +609,9 @@ final class Kashida_Hide_My_Theme {
 
 			$code = (int) wp_remote_retrieve_response_code( $response );
 			$body = (string) wp_remote_retrieve_body( $response );
-			$has_name = '' !== $expected_name && false !== stripos( $body, 'Theme Name: ' . $expected_name );
+			$theme = wp_get_theme( $slug );
+			$expected_name_for_theme = '' !== $expected_name ? $expected_name : trim( (string) $theme->get( 'Name' ) );
+			$has_name = '' !== $expected_name_for_theme && false !== stripos( $body, 'Theme Name: ' . $expected_name_for_theme );
 			$style_ok = ( 200 === $code && $has_name );
 			$screenshot_ok = null;
 			$screenshot_message = __( 'No custom screenshot selected.', 'kashida-hide-my-theme' );
