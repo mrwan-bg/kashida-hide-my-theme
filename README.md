@@ -1,162 +1,139 @@
 <!--
-  Kashida Hide My Theme
+  Kashida Hide my theme
   Developed by Kashida Media Services
 -->
 <p align="center">
-  <img src="screen/Hide%20My%20Theme%20Plugin%20Banner.png" alt="Kashida Hide My Theme — WordPress theme identity protection" width="100%">
+  <img src="screen/Hide%20My%20Theme%20Plugin%20Banner.png" alt="Kashida Hide my theme banner" width="100%">
 </p>
 
 <h1 align="center">
-  <img src="screen/Kashida%20Hide%20My%20Theme%20Icon.png" alt="Kashida Hide My Theme icon" width="88"><br>
-  Kashida Hide My Theme
+  <img src="screen/Kashida%20Hide%20My%20Theme%20Icon.png" alt="Kashida Hide my theme icon" width="88"><br>
+  Kashida Hide my theme
 </h1>
 
 <p align="center">
-  <strong>Customize the public identity of your WordPress theme without modifying the original theme files.</strong>
+  <strong>Customize selected public WordPress theme identity details without editing the original theme files.</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/mrwan-bg/kashida-hide-my-theme/releases">
-    <img src="https://img.shields.io/badge/Version-1.5.5-F15B40" alt="Version 1.5.5">
+  <a href="https://wordpress.org/plugins/kashida-hide-my-theme/">
+    <img src="https://img.shields.io/wordpress/plugin/v/kashida-hide-my-theme" alt="WordPress Plugin Version">
+  </a>
+  <a href="https://wordpress.org/plugins/kashida-hide-my-theme/">
+    <img src="https://img.shields.io/wordpress/plugin/dt/kashida-hide-my-theme" alt="WordPress Plugin Downloads">
   </a>
   <img src="https://img.shields.io/badge/WordPress-6.0%2B-21759B?logo=wordpress&logoColor=white" alt="WordPress 6.0+">
   <img src="https://img.shields.io/badge/PHP-7.4%2B-777BB4?logo=php&logoColor=white" alt="PHP 7.4+">
-  <img src="https://img.shields.io/badge/License-GPL--2.0--or--later-blue" alt="GPL-2.0-or-later">
+  <img src="https://img.shields.io/badge/License-GPLv2%2B-blue" alt="GPLv2 or later">
 </p>
 
 <p align="center">
+  <a href="https://wordpress.org/plugins/kashida-hide-my-theme/"><strong>WordPress Plugin Directory</strong></a>
+  &nbsp; • &nbsp;
+  <a href="https://wordpress.org/support/plugin/kashida-hide-my-theme/"><strong>WordPress Support</strong></a>
+  &nbsp; • &nbsp;
+  <a href="https://github.com/mrwan-bg/kashida-hide-my-theme/issues"><strong>GitHub Issues</strong></a>
+  &nbsp; • &nbsp;
   <a href="https://kashida.ly/"><strong>Kashida Media Services</strong></a>
-  &nbsp; • &nbsp;
-  <a href="https://github.com/mrwan-bg/kashida-hide-my-theme/releases"><strong>Releases</strong></a>
-  &nbsp; • &nbsp;
-  <a href="https://github.com/mrwan-bg/kashida-hide-my-theme/issues"><strong>Support & Issues</strong></a>
 </p>
 
 ---
 
 ## Overview
 
-**Kashida Hide My Theme** is a lightweight WordPress plugin that lets administrators replace selected public theme identity metadata with custom information.
+**Kashida Hide my theme** lets WordPress administrators customize selected public theme identity details and screenshot endpoints from the dashboard. It is designed to preserve the original theme files, directory names, stylesheet/template identifiers, site design, and theme update mechanisms.
 
-Set your own theme name, version, author, description, website URL, and screenshot. The plugin is designed to work with different WordPress themes, including parent and child theme setups, while leaving the original theme files, stylesheet/template identifiers, and vendor update mechanisms in place.
+The plugin supports active child themes and their parent themes where the server rewrite configuration and file paths allow it.
 
 ## Features
 
 - **Custom Theme Identity** — Configure the public Theme Name, Version, Author, Description, and Theme URI.
-- **Custom Theme Screenshot** — Select a replacement screenshot for supported public theme screenshot endpoints.
-- **Parent & Child Theme Handling** — Apply the configured identity to the active child theme and its parent theme.
-- **Public Stylesheet Metadata Replacement** — Internally map requests for the exact original `style.css` URL to a generated stylesheet copy containing the custom metadata.
-- **Original CSS Preservation** — Keep the browser-visible stylesheet URL unchanged and preserve the CSS rules following the metadata header.
-- **WordPress Admin Identity** — Customize the theme name and screenshot shown in supported WordPress administration views.
-- **Public Metadata Verification** — Check the public stylesheet metadata and screenshot endpoints for the active and parent themes.
-- **Apache / LiteSpeed Support** — Uses plugin-managed rewrite rules for the supported endpoints.
-- **Update-Friendly Design** — Does not rename theme directories or change stylesheet/template identifiers used by the theme update process.
-- **Arabic Translation** — Includes Arabic PO/MO translation files and a POT template.
+- **Custom Screenshot and Identity Icon** — Select replacement images for supported WordPress administration displays.
+- **Child and Parent Theme Handling** — Apply the configured identity to the active child theme and its parent theme.
+- **Public Stylesheet Metadata Replacement** — Use Apache/LiteSpeed internal rewrite rules to serve a generated metadata copy for requests to the exact original `style.css` URL.
+- **Original CSS Preservation** — Keep the browser-visible stylesheet URL unchanged and copy CSS rules after the original metadata comment without modification.
+- **Public Screenshot Endpoint** — Replace the supported screenshot endpoint for active child and parent theme directories with the selected screenshot.
+- **Verification Tool** — Run an optional authenticated admin-side loopback test for the public stylesheet metadata and selected screenshot.
+- **Update-Friendly Design** — Do not edit original theme files, rename theme directories, or change stylesheet/template identifiers.
+- **Controlled Rewrite Updates** — Synchronize managed rewrite rules on activation, theme switches, and settings changes—not on every admin request.
 
-## Feature Overview
+## Feature Screenshots
 
+### Plugin overview
 <p align="center">
-  <img src="screen/screen%20a%20(1).png" alt="Kashida Hide My Theme overview of supported theme identity replacement features" width="100%">
+  <img src="screen/screen%20a%20(1).png" alt="Kashida Hide my theme plugin overview" width="100%">
 </p>
 
-## Custom Theme Identity
-
-Configure your replacement theme identity and screenshot. The public response can show your selected details instead of the original theme metadata.
-
+### Custom theme identity
 <p align="center">
-  <img src="screen/screen%20a%20(2).png" alt="Custom theme identity settings and before-and-after public theme details" width="100%">
+  <img src="screen/screen%20a%20(2).png" alt="Custom theme identity settings" width="100%">
 </p>
 
-## Supported Theme Identity Controls
-
-Review the supported theme identity fields that can be replaced through the plugin's public stylesheet and WordPress administration integrations.
-
+### Supported identity controls
 <p align="center">
-  <img src="screen/screen%20a%20(3).png" alt="Before-and-after theme information privacy controls" width="100%">
+  <img src="screen/screen%20a%20(3).png" alt="Theme identity controls" width="100%">
 </p>
 
-## Lightweight & Safe Operation
-
-The plugin is designed to avoid modifying the original theme source files, page layouts, CSS/JavaScript assets, or page-builder output.
-
+### Lightweight operation
 <p align="center">
-  <img src="screen/screen%20a%20(4).png" alt="Lightweight operation and compatibility of Kashida Hide My Theme" width="100%">
+  <img src="screen/screen%20a%20(4).png" alt="Plugin operation and compatibility" width="100%">
 </p>
 
-## Installation
-
-1. Download the latest plugin ZIP from the [Releases](https://github.com/mrwan-bg/kashida-hide-my-theme/releases) page.
-2. In WordPress, go to **Plugins → Add New Plugin → Upload Plugin**.
-3. Select the ZIP file and click **Install Now**.
-4. Activate **Kashida Hide my theme**.
-5. Open **Tools → Hide my theme**.
-6. Configure the custom theme identity and screenshot, then save.
-7. Run **Verify public metadata now** to check the supported public endpoints.
-
-## Compatibility
+## Requirements and Compatibility
 
 | Requirement | Details |
 |---|---|
 | WordPress | 6.0 or later |
 | PHP | 7.4 or later |
-| Web server | Apache / LiteSpeed with `mod_rewrite` and writable `.htaccess`; Nginx-only is not supported |
-| Theme setup | Designed for parent themes and child themes |
-| Page builders | Avoids rewriting normal front-end asset URLs and builder output |
+| Web server | Apache or LiteSpeed with `mod_rewrite` enabled and a writable `.htaccess` file |
+| Theme setup | Active child theme and parent theme, subject to server/path support |
+| License | GPLv2 or later |
 
-Nginx-only servers and WordPress Multisite/network activation are not supported. Actual behavior also depends on server rewrite configuration, filesystem permissions, caching layers, CDN behavior, and theme directory layout. Always use the built-in public metadata verification after configuration.
+**Not supported:** Nginx-only configurations and WordPress Multisite/network activation for this rewrite method. Custom theme roots or uploads directories outside the site's document root may not be supported automatically.
 
 ## Important Limitations
 
-This plugin replaces selected metadata exposed through the exact endpoints it supports. It cannot guarantee that every external theme detector will fail to identify the original theme. Detection services may also inspect theme directory paths, CSS/HTML fingerprints, distinctive assets, or cached scan results.
+Kashida Hide my theme does **not** guarantee complete theme concealment. The original theme directory name remains visible in the `style.css` URL. CSS fingerprints, HTML signatures, plugin data, cached resources, and hard-coded asset paths may also reveal the original theme.
 
-The original theme directory name remains visible in the stylesheet URL and may still reveal the theme. This plugin does not rename theme folders, edit original theme files, change vendor update identifiers, or replace the theme's licensing and update connection.
+Public metadata replacement requires Apache or LiteSpeed with `mod_rewrite` and write access to `.htaccess`. If rewrite rules cannot be installed, the original stylesheet is served unchanged. A first-change backup is saved as `.htaccess.khm-bak` and intentionally retained after uninstall for manual recovery.
 
-The rewrite method requires Apache or LiteSpeed with `mod_rewrite` and writable `.htaccess` access. Nginx-only servers and Multisite/network activation are not supported. If the required rewrite rules cannot be installed, the original stylesheet response may remain visible. Caches and CDNs may also need to be purged before retesting.
+Actual behavior can also depend on filesystem permissions, server configuration, CDN/cache layers, and theme directory layout. Back up `.htaccess` before enabling the feature and use the built-in verification tool after configuration.
+
+## Installation
+
+**Recommended: install from the official WordPress Plugin Directory.**
+
+1. In your WordPress dashboard, open **Plugins → Add New Plugin**.
+2. Search for **Kashida Hide my theme**.
+3. Select **Install Now**, then activate the plugin.
+4. Open **Tools → Hide my theme**.
+5. Configure the theme identity and screenshot, then save your settings.
+6. Review the rewrite status and run the built-in public metadata verification tool.
+
+You can also visit the [official WordPress.org plugin page](https://wordpress.org/plugins/kashida-hide-my-theme/) for installation and download options.
 
 ## Plugin Information
 
 | Property | Value |
 |---|---|
-| Plugin | Kashida Hide my theme |
-| Current version | 1.5.5 |
+| Plugin name | Kashida Hide my theme |
+| WordPress.org version | 1.5.6 |
 | Developer | Kashida Media Services |
 | Author | Mrwan elGobee |
-| Website | [kashida.ly](https://kashida.ly/) |
-| Requires WordPress | 6.0+ |
-| Requires PHP | 7.4+ |
-| Text Domain | `kashida-hide-my-theme` |
-| License | GPL-2.0-or-later |
-
-## Repository Structure
-
-```text
-kashida-hide-my-theme/
-├── assets/
-│   ├── admin.css
-│   ├── admin.js
-│   ├── kashida-logo.svg
-│   └── kashida-mark.svg
-├── languages/
-│   ├── kashida-hide-my-theme-ar.mo
-│   ├── kashida-hide-my-theme-ar.po
-│   └── kashida-hide-my-theme.pot
-├── screen/
-│   ├── Kashida Hide My Theme Icon.png
-│   ├── Hide My Theme Plugin Banner.png
-│   ├── screen a (1).png
-│   ├── screen a (2).png
-│   ├── screen a (3).png
-│   └── screen a (4).png
-├── kashida-hide-my-theme.php
-├── readme.txt
-└── README.md
-```
+| WordPress.org slug | `kashida-hide-my-theme` |
+| Text domain | `kashida-hide-my-theme` |
+| Requires WordPress | 6.0 or later |
+| Requires PHP | 7.4 or later |
+| Tested up to | WordPress 7.1 |
+| License | GPLv2 or later |
 
 ## Support
 
-For bug reports, compatibility questions, or feature requests, open a [GitHub Issue](https://github.com/mrwan-bg/kashida-hide-my-theme/issues).
+- **WordPress.org support forum:** [Get support](https://wordpress.org/support/plugin/kashida-hide-my-theme/)
+- **Bug reports and feature requests:** [Open a GitHub Issue](https://github.com/mrwan-bg/kashida-hide-my-theme/issues)
+- **Plugin listing and updates:** [WordPress Plugin Directory](https://wordpress.org/plugins/kashida-hide-my-theme/)
 
-Please include your WordPress version, PHP version, web server type, parent/child theme setup, and the result from the plugin's public metadata verification tool.
+When reporting a technical issue, include your WordPress version, PHP version, web server type, parent/child theme setup, and the result of the plugin's public metadata verification tool. Do not include passwords, private keys, or other sensitive data.
 
 ## Developer
 
@@ -164,19 +141,17 @@ Please include your WordPress version, PHP version, web server type, parent/chil
 Developer: **Mrwan elGobee**
 
 - Website: [https://kashida.ly/](https://kashida.ly/)
-- GitHub: [@mrwan-bg](https://github.com/mrwan-bg)
+- GitHub repository: [mrwan-bg/kashida-hide-my-theme](https://github.com/mrwan-bg/kashida-hide-my-theme)
 
 ---
 
 <p align="center">
-  <strong>Kashida Hide My Theme</strong><br>
+  <strong>Kashida Hide my theme</strong><br>
   Your website. Your public identity.
 </p>
-
 <p align="center">
   Developed by <a href="https://kashida.ly/">Kashida Media Services</a>
 </p>
-
 
 ---
 
@@ -184,110 +159,99 @@ Developer: **Mrwan elGobee**
 
 ## نبذة عن الإضافة
 
-**Kashida Hide My Theme** إضافة لووردبريس تتيح لك تخصيص بيانات الهوية العامة للقالب (Theme) التي تظهر في بعض الاستجابات والواجهات العامة للموقع، واستبدالها ببيانات تختارها بنفسك.
+**Kashida Hide my theme** إضافة لووردبريس تتيح تخصيص بعض بيانات هوية القالب الظاهرة للعامة ونقاط عرض صورة القالب، من خلال لوحة التحكم، دون تعديل ملفات القالب الأصلية أو تغيير تصميم الموقع أو آلية تحديث القالب.
 
-يمكنك تحديد اسم القالب، والإصدار، واسم المؤلف، والوصف، ورابط الموقع، وصورة القالب. صُممت الإضافة للعمل مع قوالب ووردبريس المختلفة، بما في ذلك القوالب الرئيسية والفرعية (Parent / Child Themes)، دون الحاجة إلى تعديل ملفات القالب الأصلي أو تغيير معرّفاته المستخدمة في آلية التحديث.
+تدعم الإضافة القالب الابن النشط والقالب الأب المرتبط به، متى سمحت إعدادات إعادة الكتابة ومسارات الملفات على الخادم بذلك.
 
 ## المميزات الرئيسية
 
-- **هوية مخصصة للقالب:** تحديد اسم القالب والإصدار والمؤلف والوصف ورابط القالب الذي تريد إظهاره.
-- **صورة مخصصة للقالب:** اختيار صورة بديلة تظهر عبر نقاط الوصول المدعومة لصورة القالب.
-- **دعم القوالب الرئيسية والفرعية:** تطبيق بيانات الهوية المخصصة على القالب النشط والقالب الرئيسي المرتبط به، وفق آلية الإضافة.
-- **استبدال بيانات style.css العامة:** معالجة طلبات ملف `style.css` المحدد لتقديم بيانات تعريف مخصصة، مع الحفاظ على عنوان الملف الأصلي الظاهر للمتصفح.
-- **الحفاظ على تنسيقات CSS:** الإبقاء على قواعد التنسيق الموجودة بعد ترويسة بيانات التعريف دون تغييرها.
-- **تخصيص العرض في لوحة التحكم:** تغيير اسم القالب وصورته في مواضع الإدارة التي تدعمها الإضافة.
-- **التحقق من البيانات العامة:** فحص استجابات بيانات ملف التنسيق وصورة القالب للقالب النشط والقالب الرئيسي.
-- **التوافق مع Apache وLiteSpeed:** استخدام قواعد إعادة الكتابة التي تديرها الإضافة لنقاط الوصول المدعومة.
-- **الحفاظ على آلية تحديث القالب:** لا تعيد الإضافة تسمية مجلد القالب ولا تغيّر معرّفات القالب المستخدمة في عملية التحديث.
-- **الترجمة العربية:** تتضمن ملفات ترجمة عربية بصيغ PO وMO، بالإضافة إلى ملف POT.
+- **تخصيص هوية القالب:** تحديد اسم القالب وإصداره واسم المؤلف والوصف ورابط القالب الظاهر للعامة.
+- **صورة وأيقونة مخصصتان:** اختيار صور بديلة في واجهات إدارة ووردبريس المدعومة.
+- **دعم القالب الابن والأب:** تطبيق بيانات الهوية المخصصة على القالب الابن النشط والقالب الأب.
+- **استبدال بيانات style.css العامة:** استخدام قواعد إعادة كتابة داخلية في Apache وLiteSpeed لتقديم نسخة مولّدة من بيانات الملف عند طلب عنوان `style.css` الأصلي المحدد.
+- **الحفاظ على CSS الأصلي:** الإبقاء على عنوان ملف التنسيق الظاهر في المتصفح ونسخ قواعد CSS الموجودة بعد تعليق البيانات الوصفية الأصلي دون تعديل.
+- **استبدال نقطة عرض صورة القالب:** استخدام الصورة المحددة في إعدادات الإضافة لنقاط عرض الصورة المدعومة للقالب الابن والأب النشطين.
+- **أداة التحقق:** اختبار اختياري من لوحة الإدارة، يتطلب المصادقة، للتحقق من بيانات ملف التنسيق والصورة العامة.
+- **الحفاظ على ملفات القالب وتحديثاته:** لا تعدّل الإضافة ملفات القالب الأصلية أو أسماء مجلداته أو معرّفات stylesheet/template.
+- **إدارة قواعد إعادة الكتابة:** تتم مزامنة القواعد عند التفعيل وتغيير القالب وحفظ الإعدادات، وليس مع كل طلب إداري.
 
-## شرح صور ومميزات الإضافة
+## صور توضيحية للمميزات
 
-### 1. نظرة عامة على المميزات
-
-توضح الصورة إمكانيات الإضافة في تخصيص بيانات القالب وتقليل المعلومات التعريفية الظاهرة، مع توفير خيارات لاستبدال البيانات بمعلوماتك الخاصة.
-
+### نظرة عامة على الإضافة
 <p align="center">
-  <img src="screen/screen%20a%20(1).png" alt="نظرة عامة على مميزات إضافة Kashida Hide My Theme" width="100%">
+  <img src="screen/screen%20a%20(1).png" alt="نظرة عامة على إضافة Kashida Hide my theme" width="100%">
 </p>
 
-### 2. تخصيص هوية القالب
-
-يمكنك إدخال بيانات الهوية البديلة، مثل اسم القالب والإصدار والمؤلف ورابط الموقع والوصف، واختيار صورة مخصصة للقالب لتظهر بدلاً من الصورة الأصلية في نقاط الوصول المدعومة.
-
+### تخصيص هوية القالب
 <p align="center">
-  <img src="screen/screen%20a%20(2).png" alt="تخصيص بيانات وصورة هوية القالب" width="100%">
+  <img src="screen/screen%20a%20(2).png" alt="إعدادات تخصيص هوية القالب" width="100%">
 </p>
 
-### 3. التحكم في بيانات هوية القالب المدعومة
-
-توضح الصورة خيارات التحكم في بيانات هوية القالب التي تدعمها الإضافة، مثل الاسم والإصدار والمؤلف والوصف وصورة القالب، ضمن شاشات الإدارة ونقاط الوصول العامة المحددة.
-
+### عناصر الهوية المدعومة
 <p align="center">
-  <img src="screen/screen%20a%20(3).png" alt="التحكم في معلومات القالب والبيانات التعريفية" width="100%">
+  <img src="screen/screen%20a%20(3).png" alt="خيارات التحكم في بيانات هوية القالب" width="100%">
 </p>
 
-### 4. خفيفة وآمنة على القالب
-
-تعمل الإضافة كطبقة مستقلة لإدارة البيانات التعريفية المدعومة. وهي لا تتطلب تعديل ملفات القالب الأصلية أو تغيير تصميم الصفحات أو ملفات CSS وJavaScript الخاصة بالقالب، كما تهدف إلى عدم التدخل في مخرجات أدوات بناء الصفحات.
-
+### خفة التشغيل والحفاظ على القالب
 <p align="center">
-  <img src="screen/screen%20a%20(4).png" alt="خفة الإضافة والتوافق مع القالب وووردبريس" width="100%">
+  <img src="screen/screen%20a%20(4).png" alt="خفة الإضافة والتوافق" width="100%">
 </p>
 
-## طريقة التثبيت والاستخدام
+## المتطلبات والتوافق
 
-1. حمّل أحدث ملف ZIP من صفحة [الإصدارات Releases](https://github.com/mrwan-bg/kashida-hide-my-theme/releases).
-2. من لوحة تحكم ووردبريس، انتقل إلى **إضافات ← أضف إضافة جديدة ← رفع إضافة**.
-3. اختر ملف ZIP ثم اضغط **التنصيب الآن**.
-4. فعّل إضافة **Kashida Hide my theme**.
-5. انتقل إلى **أدوات ← Hide my theme**.
-6. أدخل بيانات هوية القالب البديلة، واختر الصورة المخصصة، ثم احفظ الإعدادات.
-7. استخدم خيار **Verify public metadata now** للتحقق من استجابات البيانات العامة المدعومة.
-
-## التوافق والمتطلبات
-
-| المتطلب | الإصدار / التفاصيل |
+| المتطلب | التفاصيل |
 |---|---|
 | ووردبريس | 6.0 أو أحدث |
 | PHP | 7.4 أو أحدث |
-| خادم الويب | Apache أو LiteSpeed مع دعم قواعد إعادة الكتابة وإمكانية الوصول إلى `.htaccess` |
-| أنواع القوالب | مصممة لدعم القوالب الرئيسية والفرعية |
-| أدوات بناء الصفحات | تتجنب إعادة كتابة روابط ملفات الواجهة الأمامية العادية ومخرجات أدوات البناء |
+| خادم الويب | Apache أو LiteSpeed مع تفعيل `mod_rewrite` وإمكانية الكتابة إلى `.htaccess` |
+| القوالب | القالب الابن النشط والقالب الأب، وفق دعم إعدادات الخادم والمسارات |
+| الترخيص | GPLv2 أو أحدث |
 
-يعتمد نجاح الاستبدال على إعدادات إعادة الكتابة في الخادم، وصلاحيات الملفات، وأنظمة التخزين المؤقت، وشبكات CDN، وطريقة تنظيم ملفات القالب. يُنصح دائماً باستخدام أداة التحقق المدمجة بعد ضبط الإعدادات.
+**غير مدعوم:** خوادم Nginx فقط، وWordPress Multisite أو التفعيل على مستوى الشبكة باستخدام طريقة إعادة الكتابة هذه. وقد لا تكون مجلدات القوالب المخصصة أو مجلدات uploads الموجودة خارج جذر مستندات الموقع مدعومة تلقائياً.
 
-## ملاحظات وحدود مهمة
+## ملاحظات وقيود مهمة
 
-تستبدل الإضافة بيانات تعريفية محددة عبر نقاط الوصول التي تدعمها، لكنها **لا تضمن منع جميع أدوات فحص القوالب من اكتشاف القالب الأصلي بشكل كامل**. فقد تعتمد بعض أدوات الفحص على مسار مجلد القالب أو بصمات ملفات CSS وHTML أو الصور والملفات المميزة أو نتائج فحص مخزنة مسبقاً.
+لا تضمن الإضافة إخفاء هوية القالب بالكامل؛ إذ يظل اسم مجلد القالب الأصلي ظاهراً في عنوان ملف `style.css`. وقد تكشف بصمات CSS أو HTML وبيانات الإضافات والملفات المخزنة مؤقتاً ومسارات الأصول الثابتة عن القالب الأصلي.
 
-يبقى اسم مجلد القالب الأصلي ظاهراً ضمن رابط ملف التنسيق، وقد يكشف عن القالب المستخدم. لا تعيد الإضافة تسمية مجلد القالب، ولا تعدّل ملفاته الأصلية، ولا تغيّر معرّفات التحديث أو آلية الترخيص والاتصال بموقع الشركة المطوّرة للقالب.
+يتطلب استبدال البيانات العامة خادماً يعمل بـ Apache أو LiteSpeed مع تفعيل `mod_rewrite` وإمكانية الكتابة إلى ملف `.htaccess`. إذا تعذّر تثبيت قواعد إعادة الكتابة، فسيُقدَّم ملف التنسيق الأصلي دون تغيير. تحتفظ الإضافة بنسخة احتياطية عند أول تعديل باسم `.htaccess.khm-bak`، ولا تحذفها عند إزالة الإضافة، لإتاحة الاستعادة اليدوية.
 
-تعتمد آلية إعادة الكتابة على إعدادات Apache أو LiteSpeed المدعومة. إذا تعذّر تثبيت قواعد إعادة الكتابة المطلوبة، فقد تستمر الاستجابة الأصلية لملف التنسيق في الظهور. وقد تحتاج أيضاً إلى مسح ذاكرة التخزين المؤقت وذاكرة CDN قبل إعادة الاختبار.
+قد يعتمد الأداء الفعلي أيضاً على صلاحيات الملفات وإعدادات الخادم وطبقات CDN والتخزين المؤقت وطريقة تنظيم مجلدات القالب. يُنصح بإنشاء نسخة احتياطية من `.htaccess` قبل تفعيل الميزة واستخدام أداة التحقق المدمجة بعد الإعداد.
+
+## التثبيت
+
+**الطريقة الموصى بها: التثبيت من مستودع إضافات ووردبريس الرسمي.**
+
+1. من لوحة تحكم ووردبريس، انتقل إلى **إضافات ← أضف إضافة جديدة**.
+2. ابحث عن **Kashida Hide my theme**.
+3. اضغط **تنصيب الآن** ثم فعّل الإضافة.
+4. انتقل إلى **أدوات ← Hide my theme**.
+5. أدخل بيانات هوية القالب واختر الصورة المخصصة، ثم احفظ الإعدادات.
+6. راجع حالة قواعد إعادة الكتابة وشغّل أداة التحقق من البيانات العامة.
+
+يمكنك أيضاً زيارة [صفحة الإضافة الرسمية على WordPress.org](https://wordpress.org/plugins/kashida-hide-my-theme/) للحصول على خيارات التثبيت والتنزيل.
 
 ## معلومات الإضافة
 
 | الخاصية | التفاصيل |
 |---|---|
 | اسم الإضافة | Kashida Hide my theme |
-| الإصدار | 1.5.5 |
+| الإصدار المنشور على WordPress.org | 1.5.6 |
 | المطوّر | Kashida Media Services |
 | المؤلف | Mrwan elGobee |
-| الموقع | [kashida.ly](https://kashida.ly/) |
+| معرّف الإضافة | `kashida-hide-my-theme` |
+| Text Domain | `kashida-hide-my-theme` |
 | الحد الأدنى لووردبريس | 6.0 |
 | الحد الأدنى لـ PHP | 7.4 |
-| Text Domain | `kashida-hide-my-theme` |
-| الترخيص | GPL-2.0-or-later |
+| تم الاختبار حتى | WordPress 7.1 |
+| الترخيص | GPLv2 أو أحدث |
 
-## الدعم والملاحظات الفنية
+## الدعم
 
-للإبلاغ عن مشكلة أو طلب ميزة، يرجى فتح [تذكرة دعم على GitHub](https://github.com/mrwan-bg/kashida-hide-my-theme/issues)، مع إرفاق المعلومات التالية لتسهيل التشخيص:
+- **منتدى دعم WordPress.org:** [الحصول على الدعم](https://wordpress.org/support/plugin/kashida-hide-my-theme/)
+- **الإبلاغ عن مشكلة أو طلب ميزة:** [فتح تذكرة على GitHub](https://github.com/mrwan-bg/kashida-hide-my-theme/issues)
+- **صفحة الإضافة والتحديثات:** [مستودع إضافات ووردبريس](https://wordpress.org/plugins/kashida-hide-my-theme/)
 
-- إصدار ووردبريس.
-- إصدار PHP.
-- نوع خادم الويب.
-- توضيح ما إذا كان الموقع يستخدم قالباً رئيسياً أو قالباً فرعياً.
-- نتيجة أداة التحقق من البيانات العامة داخل الإضافة.
+عند الإبلاغ عن مشكلة تقنية، يرجى ذكر إصدار ووردبريس وPHP ونوع خادم الويب وإعداد القالب الابن/الأب ونتيجة أداة التحقق من البيانات العامة. لا ترسل كلمات المرور أو المفاتيح الخاصة أو أي بيانات حساسة.
 
 ## المطوّر
 
@@ -295,15 +259,14 @@ Developer: **Mrwan elGobee**
 المطوّر: **Mrwan elGobee**
 
 - الموقع الإلكتروني: [https://kashida.ly/](https://kashida.ly/)
-- GitHub: [@mrwan-bg](https://github.com/mrwan-bg)
+- مستودع GitHub: [mrwan-bg/kashida-hide-my-theme](https://github.com/mrwan-bg/kashida-hide-my-theme)
 
 ---
 
 <p align="center">
-  <strong>Kashida Hide My Theme</strong><br>
+  <strong>Kashida Hide my theme</strong><br>
   موقعك الإلكتروني. هويتك العامة.
 </p>
-
 <p align="center">
   تطوير <a href="https://kashida.ly/">Kashida Media Services</a>
 </p>
