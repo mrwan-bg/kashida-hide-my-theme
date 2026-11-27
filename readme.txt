@@ -3,7 +3,7 @@ Contributors: kashida
 Tags: theme, branding, administration, theme-identity
 Requires at least: 6.0
 Requires PHP: 7.4
-Tested up to: 7.1
+Tested up to: 7.2
 Stable tag: 1.5.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -45,6 +45,7 @@ The original theme directory name remains visible in the style.css URL and may s
 == Changelog ==
 
 = 1.5.5 =
+* Updated compatibility metadata for WordPress 7.2 and documented successful PHP 8.6 compatibility testing.
 * Omit the parent-theme Template header from generated public stylesheets so the parent directory slug is not disclosed in the replacement metadata response.
 * Verify the effective theme name when the optional custom display name is empty.
 * Align public documentation with the implemented theme identity and stylesheet/screenshot endpoints; remove unsupported generator-metadata claims.
