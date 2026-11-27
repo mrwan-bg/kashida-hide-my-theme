@@ -83,8 +83,8 @@ The plugin supports active child themes and their parent themes where the server
 
 | Requirement | Details |
 |---|---|
-| WordPress | 6.0 or later |
-| PHP | 7.4 or later |
+| WordPress | 6.0 or later (tested with 7.2) |
+| PHP | 7.4 or later (tested with PHP 8.6) |
 | Web server | Apache or LiteSpeed with `mod_rewrite` enabled and a writable `.htaccess` file |
 | Theme setup | Active child theme and parent theme, subject to server/path support |
 | License | GPLv2 or later |
